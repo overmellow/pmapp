@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block body %}
+
+<div>
+    <h1>Hello {{ user.email }}!</h1><a href="/logout">Log Out</a>
+    <hr>
+    <div class="row">
+        <div class="col s6"> 
+            Ticket ID
+        </div>
+        <div class="col s6">
+        {{ticket.id}}    
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col s6">
+            Transaction Number
+        </div>
+        <div class="col s6">
+            {{ticket.TicketNumber}}
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col s6">
+            Bitcoin Transaction Number
+        </div>
+        <div class="col s6">
+            {{ticket.BitcoinTransactionNumber}}
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col s6">
+            Lottery Id
+        </div>
+        <div class="col s6">
+            {{ticket.Lottery.id}}
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col s6">
+            Lottery Number
+        </div>
+        <div class="col s6">
+            {{ticket.Lottery.LotteryNumber}}
+        </div>
+    </div>    
+    <div class="row">        
+        <div class="col s6">
+            Purchase Date / Time
+        </div>
+        <div class="col s6">
+            {{ticket.PurchasedAt | date}}
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col s6">
+            Bitcoin Transaction Date
+        </div>
+        <div class="col s6">
+            {{ticket.BitcoinTransactionDate | date}}
+        </div>
+    </div>        
+</div>
+{% endblock %}

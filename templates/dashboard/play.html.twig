@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Play{% endblock %}
+
+{% block body %}
+<h1>Play Lottery {{lottery.lotteryNumber}}</h1>
+<div>
+    <table class="table">
+        <tr>
+            <td scope="col">Size</td><td>{{ lottery.size }}</td>
+        </tr>
+        <tr>
+           <td scope="col">Ticket Amount</td><td>{{ lottery.ticketAmount }}</td>
+        </tr>                
+        <tr>                
+            <td scope="col">Jackpot</td><td>{{ lottery.jackpot }}</td>
+        </tr>                
+        <tr>
+            <td scope="col">Start At</td><td>{{ lottery.startAt | date('Y-m-d H:i:s') }}</td>
+        </tr>                                   
+        {# <tr>
+            <td>{{ lottery.closeAt | date('Y-m-d H:i:s') }}</td>
+        </tr> #}          
+    </table>
+    <a class="btn btn-success" href="{{ path('pay', {'id': lottery.id}) }}">Pay for Lottery Ticket</a>
+</div>
+
+{% endblock %}

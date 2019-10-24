@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Pay {% endblock %}
+
+{% block body %}
+<h1>Pay Lottery Ticket - {{lottery.lotteryNumber}}</h1>
+<hr>
+{# 
+<div>
+    <h4>Ticket Amount: {{ lottery.ticketAmount }}</h4>
+    <br>
+    <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Ticket No</span>
+        </div>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+    </div>
+    <div class="input-group input-group-sm mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="inputGroup-sizing-sm">Bitcoin Transcation No</span>
+        </div>
+        <input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-sm">
+    </div>
+    <a class="btn btn-success" href="/dashboard/buy/{{ lottery.id }}">Pay Lottery Ticket</a>
+</div>
+ #}
+{{ form(form) }}
+{% endblock %}

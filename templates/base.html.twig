@@ -1,12 +1,78 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+       
+        <title>Premium Millionaire | {% block title %}{% endblock %}</title>
+        
+        <link rel="shortcut icon" type="image/png" href="{{ asset('assets/images/theme/favicon.jpg') }}">
+
         {% block stylesheets %}{% endblock %}
+
+        <link rel="stylesheet" href="{{ asset('assets/css/mystyle.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/fontawesome.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/bootstrap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/animate.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/lightcase.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/slick.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/swiper.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/flipclock.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/jqvmap.min.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/style.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/dark-version.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/theme/responsive.css') }}">
     </head>
     <body>
+        <!-- preloader start -->
+        <div id="preloader"></div>
+        <!-- preloader end -->
+
         {% block body %}{% endblock %}
+
         {% block javascripts %}{% endblock %}
+
+        <!-- jquery library js file -->
+        <script src="{{ asset('assets/js/theme/jquery-3.3.1.min.js') }}"></script>
+        <!-- bootstrap js file -->
+        <script src="{{ asset('assets/js/theme/bootstrap.min.js') }}"></script>
+        <!-- flipclock js file -->
+        <script src="{{ asset('assets/js/theme/flipclock.min.js') }}"></script>
+        <!-- countdown js file -->
+        <script src="{{ asset('assets/js/theme/jquery.countdown.min.js') }}"></script>
+        <!-- slick js file -->
+        <script src="{{ asset('assets/js/theme/slick.min.js') }}"></script>
+        <!-- swiper js file -->
+        <script src="{{ asset('assets/js/theme/swiper.min.js') }}"></script>
+        <!-- lightcase js file -->
+        <script src="{{ asset('assets/js/theme/lightcase.js') }}"></script>
+        <!-- wow js file -->
+        <script src="{{ asset('assets/js/theme/wow.min.js') }}"></script>
+        <!-- vamp js files -->
+        <script src="{{ asset('assets/js/theme/jquery.vmap.min.js') }}"></script>
+        <script src="{{ asset('assets/js/theme/jquery.vmap.world.js') }}"></script>
+        <!-- main script js file -->
+        <script src="{{ asset('assets/js/theme/main.js') }}"></script>
+
+        <script>
+            var clock = $('.clock').FlipClock(99000 * 24 * 3, {
+                clockFace: 'DailyCounter',
+                countdown: true
+            });
+        </script>
+        <script>
+            jQuery(document).ready(function() {
+                jQuery('#vmap').vectorMap({
+                map: 'world_en',
+                color: '#434574',
+                backgroundColor: '#f7fcff',
+                hoverOpacity: 0.8,
+                selectedColor: '#eaedef',
+                scaleColors: ['#434574', '#434574'],
+                normalizeFunction: 'polynomial'
+                });
+            });
+        </script>
     </body>
 </html>

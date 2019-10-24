@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello LotteryController!{% endblock %}
+
+{% block body %}
+<div>
+    <h1>Lottery Detail</h1>
+    <div class="divider">
+    <p>{{ lottery.lotteryNumber }}</p>
+    <p>{{ lottery.size }}</p>
+    <p>{{ lottery.ticketAmount }}</p>
+    <p>{{ lottery.jackpot }}</p>
+    <p>{{ lottery.startAt | date('Y-m-d H:i:s') }}</p>
+    <p>{{ lottery.closeAt | date('Y-m-d H:i:s') }}</p>
+</div>
+{% endblock %}
