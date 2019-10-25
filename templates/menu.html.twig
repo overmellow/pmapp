@@ -32,7 +32,7 @@
                                 {% if user.email is defined %}
                                   {{ user.email }}
                                 {% else %}  
-                                  <a href="/login">Login</a>
+                                  <a href="{{ path('login') }}">Login</a>
                                 {% endif %}
                                 </span>
                           </div>
@@ -44,7 +44,7 @@
       <div class="header-bottom">
         <div class="container">
           <nav class="navbar navbar-expand-xl">
-            <a class="site-logo site-title" href="/">
+            <a class="site-logo site-title" href="{{ path('default') }}">
               <p>Premium Millionaire</p>
               {# <img src="{{ asset('assets/images/theme/logo.png') }}" alt="site-logo">             #}
             </a>
@@ -53,15 +53,15 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav main-menu ml-auto">                
-                <li><a href="/lotteries">lotteries</a>
-                <li><a href="/results">results</a>
-                <li><a href="/how-to-play">how to play</a></li>
-                <li><a href="/faq">faq</a></li>
-                <li><a href="/about-us">about us</a></li>
-                <li><a href="/contact-us">contact us</a></li>                
+                <li><a href="{{ path('lotteries') }}">lotteries</a>
+                <li><a href="{{ path('results') }}">results</a>
+                <li><a href="{{ path('how-to-play') }}">how to play</a></li>
+                <li><a href="{{ path('faq') }}">faq</a></li>
+                <li><a href="{{ path('about-us') }}">about us</a></li>
+                <li><a href="{{ path('contact-us') }}">contact us</a></li>                
               </ul>
               <div class="header-join-part">
-                <a class="cmn-btn" href="/signup">join us</a>
+                <a class="cmn-btn" href="{{ path('signup') }}">join us</a>
                 {# <button type="button" class="cmn-btn" data-toggle="modal" data-target="#exampleModal">join us</button> #}
               </div>
             </div>
