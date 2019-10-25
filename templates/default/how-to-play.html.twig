@@ -1,0 +1,237 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Be a Winner{% endblock %}
+
+{% block body %}
+
+    {% include 'menu.html.twig' %}
+
+    <!-- inner-page-banner start -->
+    <section class="inner-page-banner has_bg_image" data-background="{{ asset('assets/images/theme/inner-page-bg.jpg') }}">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="inner-page-banner-area">
+              <h1 class="page-title">How to play</h1>
+              <nav aria-label="breadcrumb" class="page-header-breadcrumb">
+                <ol class="breadcrumb">
+                  <li class="breadcrumb-item"><a href="home-one.html">Home</a></li>
+                  <li class="breadcrumb-item"><a href="#0">pages</a></li>
+                  <li class="breadcrumb-item active">how to play</li>
+                </ol>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- inner-page-banner end -->
+
+    <!-- work-steps-section strat -->
+    <section class="work-steps-section section-padding">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7">
+            <div class="section-header text-center">
+              <h2 class="section-title">how it works</h2>
+              <p>Sorteo is the best way to play these exciting lotteries from anywhere in the world.</p>
+            </div>
+          </div>
+        </div>
+        <div class="row align-items-center">
+          <div class="col-lg-6">
+            <div class="work-steps-items-part d-flex">
+              <div class="line"><img src="{{ asset('assets/images/theme/elements/line.png') }}" alt="line-image"></div>
+              <div class="work-steps-item">
+                <div class="work-steps-item-inner">
+                  <div class="icon">
+                    <img src="{{ asset('assets/images/theme/svg-icons/how-work-icons/1.svg') }}" alt="icon">
+                    <span class="count-num">01</span>
+                  </div>
+                  <h4 class="title">choose</h4>
+                  <p>Choose your lottery & pick your numbers</p>
+                </div>
+              </div><!-- work-steps-item end -->
+              <div class="work-steps-item">
+                <div class="work-steps-item-inner">
+                  <div class="icon">
+                    <img src="{{ asset('assets/images/theme/svg-icons/how-work-icons/2.svg') }}" alt="icon">
+                    <span class="count-num">02</span>
+                  </div>
+                  <h4 class="title">buy</h4>
+                  <p>Complete your purchase</p>
+                </div>
+              </div><!-- work-steps-item end -->
+              <div class="work-steps-item">
+                <div class="work-steps-item-inner">
+                  <div class="icon">
+                    <img src="{{ asset('assets/images/theme/svg-icons/how-work-icons/3.svg') }}" alt="icon" class="">
+                    <span class="count-num">01</span>
+                  </div>
+                  <h4 class="title">win</h4>
+                  <p>Start dreaming, you're almost there</p>
+                </div>
+              </div><!-- work-steps-item end -->
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="work-steps-thumb-part">
+              <img src="{{ asset('assets/images/theme/elements/step.png') }}" alt="work-step-image">
+              <a href="#" class="play-btn"><i class="fa fa-play"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- work-steps-section strat -->
+
+    <!-- reward-section start -->
+    <section class="reward-section section-padding border-top has_bg_image" data-background="{{ asset('assets/images/theme/bg-five.jpg') }}">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg-7">
+            <div class="section-header text-center">
+              <h2 class="section-title">Lucky-Rewards</h2>
+              <p>We at Sorteo offer you the most generous and innovative lotto bonuses. How would you feel with an attractive deposit bonus, a risk free lottery ticket</p>
+            </div>
+          </div>
+        </div>
+        <div class="row m-bottom-not-30">
+          <div class="col-lg-4 col-md-6">
+            <div class="reward-item text-center">
+              <div class="icon">
+                <img src="{{ asset('assets/images/theme/svg-icons/reward/1.svg') }}" alt="image">
+              </div>
+              <div class="content">
+                <h3 class="title">Collect Points</h3>
+                <p>After playing your ticket, win or not, enter the code from your ticket to collect Lucke-Rewards points.</p>
+              </div>
+            </div>
+          </div><!-- reward-item end-->
+          <div class="col-lg-4 col-md-6">
+            <div class="reward-item text-center">
+              <div class="icon">
+                <img src="{{ asset('assets/images/theme/svg-icons/reward/2.svg') }}" alt="image">
+              </div>
+              <div class="content">
+                <h3 class="title">Enter Drawings</h3>
+                <p>Use your Lucke-Rewards points to enter drawings for a second chance to win.So why are you waiting for?</p>
+              </div>
+            </div>
+          </div><!-- reward-item end-->
+          <div class="col-lg-4 col-md-6">
+            <div class="reward-item text-center">
+              <div class="icon">
+                <img src="{{ asset('assets/images/theme/svg-icons/reward/3.svg') }}" alt="image">
+              </div>
+              <div class="content">
+                <h3 class="title">Promotions & Drawings</h3>
+                <p>You’ve earned your points and are ready to play again. Check out the latest Lucke-Rewards drawings</p>
+              </div>
+            </div>
+          </div><!-- reward-item end-->
+        </div>
+      </div>
+    </section>
+    <!-- reward-section end -->
+
+    <!-- subscribe-section start -->
+    <section class="subscribe-section">
+      <div class="container">
+        <div class="row subscribe-area justify-content-between">
+          <div class="col-lg-5">
+            <div class="subscribe-content">
+              <h3 class="title">Subcriber for Newsletter</h3>
+              <p>Subscribe now and receive weekly newsletter for latest Lottery news and much more! </p>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="subscribe-form-area">
+              <form class="subscribe-form">
+                <input type="email" name="subs_email" id="subs_email" placeholder="Email address">
+                <input type="submit" value="subscribe">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- subscribe-section end -->
+
+    <!-- question-section start -->
+    <section class="question-section border-top section-padding section-bg">
+      <div class="container">
+        <div class="row justify-content-between">
+          <div class="col-lg-4">
+            <div class="thumb text-lg-right text-center">
+              <img src="{{ asset('assets/images/theme/elements/faq.png') }}" alt="image">
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="content">
+              <h2 class="title">If you have any questions</h2>
+              <p>Our top priorities are to protect your privacy, provide secure transactions, and safeguard your data. When you're ready to play, registering an account is required so we know you're of legal age and so no one else can use your account.We answer the most commonly asked lotto questions..</p>
+              <a href="#0" class="cmn-btn">Check FAQs</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- question-section end -->
+
+    <!-- brand-section start -->
+    <div class="brand-section border-top">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="brand-slider">
+              <div class="single-slide">
+                <div class="slide-inner">
+                  <img src="{{ asset('assets/images/theme/brand/1.png') }}" alt="image">
+                </div>
+              </div><!-- single-slide end -->
+              <div class="single-slide">
+                <div class="slide-inner">
+                  <img src="{{ asset('assets/images/theme/brand/2.png') }}" alt="image">
+                </div>
+              </div><!-- single-slide end -->
+              <div class="single-slide">
+                <div class="slide-inner">
+                  <img src="{{ asset('assets/images/theme/brand/3.png') }}" alt="image">
+                </div>
+              </div><!-- single-slide end -->
+              <div class="single-slide">
+                <div class="slide-inner">
+                  <img src="{{ asset('assets/images/theme/brand/4.png') }}" alt="image">
+                </div>
+              </div><!-- single-slide end -->
+              <div class="single-slide">
+                <div class="slide-inner">
+                  <img src="{{ asset('assets/images/theme/brand/5.png') }}" alt="image">
+                </div>
+              </div><!-- single-slide end -->
+              <div class="single-slide">
+                <div class="slide-inner">
+                  <img src="{{ asset('assets/images/theme/brand/3.png') }}" alt="image">
+                </div>
+              </div><!-- single-slide end -->
+              <div class="single-slide">
+                <div class="slide-inner">
+                  <img src="{{ asset('assets/images/theme/brand/4.png') }}" alt="image">
+                </div>
+              </div><!-- single-slide end -->
+              <div class="single-slide">
+                <div class="slide-inner">
+                  <img src="{{ asset('assets/images/theme/brand/5.png') }}" alt="image">
+                </div>
+              </div><!-- single-slide end -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- brand-section end -->
+    
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
