@@ -1,4 +1,4 @@
-<div class="main-dark-version">
+<div class="main-light-version">
     <!--  header-section start  -->
     <header class="header-section">
       <div class="header-top">
@@ -26,13 +26,15 @@
                   <div class="col-lg-4 col-md-4">
                       <div class="header-top-right">
                           <div class="header-cart-count">
-                              <i class="fa fa-shopping-cart"></i>
+                              {% if user.email is defined %}
+                              <a href="{{ path('app_logout') }}"<i class="fa fa-sign-out"></i></a>
+                              {% endif %}
                               {# <span>My cart (0)</span> #}
                               <span>
                                 {% if user.email is defined %}
                                   {{ user.email }}
                                 {% else %}  
-                                  <a href="{{ path('login') }}">Login</a>
+                                  <a href="{{ path('app_login') }}">Login</a>
                                 {% endif %}
                                 </span>
                           </div>
@@ -61,7 +63,11 @@
                 <li><a href="{{ path('contact-us') }}">contact us</a></li>                
               </ul>
               <div class="header-join-part">
+                {% if user.email is defined %}
+                <a class="cmn-btn" href="{{ path('dashboard') }}">Dashboard</a>
+                {% else %}  
                 <a class="cmn-btn" href="{{ path('signup') }}">join us</a>
+                {% endif %}
                 {# <button type="button" class="cmn-btn" data-toggle="modal" data-target="#exampleModal">join us</button> #}
               </div>
             </div>

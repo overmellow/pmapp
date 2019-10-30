@@ -9,65 +9,87 @@
 
     {% include 'menu.html.twig' with {'user.email': user.email } %}
 
-    <div class="container">
-        <div>
-            <h1>List of Lotteries</h1>
-            <div class="divider"></div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Lottery Number</th>
-                        <th scope="col">Size</th>
-                        <th scope="col">Ticket Amount</th>
-                        <th scope="col">Jackpot</th>
-                        <th scope="col">Start At</th>
-                        {# <th scope="col">Close At</th> #}
-                        <th scope="col">Play</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for lottery in lotteries %}
-                    <tr>
-                        <th scope="row">{{ lottery.id }}</th>
-                        <td>{{ lottery.lotteryNumber }}</td>
-                        <td>{{ lottery.size }}</td>
-                        <td>{{ lottery.ticketAmount }}</td>
-                        <td>{{ lottery.jackpot }}</td>
-                        <td>{{ lottery.startAt | date('Y-m-d H:i:s') }}</td>
-                        {# <td>{{ lottery.closeAt | date('Y-m-d H:i:s') }}</td> #}
-                        <td><a class="btn btn-success" href="/dashboard/play/{{ lottery.id }}">Play</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+    <!-- online-ticket-section start -->
+    <section class="online-ticket-section section-padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section-header text-center">
+                    <h2 class="section-title">All Current Lotteries to Buy</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for lottery in lotteries %}
+
+                <div class="col-lg-4 col-sm-6">
+                    <div class="jackpot-item text-center">
+                    <img src="{{ asset('assets/images/theme/elements/jackpot-1.png') }}" alt="image">
+                    <span class="amount">${{ lottery.jackpot | number_format(2, '.', ',') }}</span>
+                    <h5 class="title">{{ lottery.lotteryNumber }}</h5>
+                    <p class="next-draw-time">Ticket Price: ${{ lottery.ticketAmount | number_format(2, '.', ',') }}</p>
+                    <p class="next-draw-time">Started At: {{ lottery.startAt | date('Y-m-d H:i:s') }}</p>
+                    {# <p class="next-draw-time">Next Draw : <span id="remainTime1"></span></p> #}
+                    <a href="/dashboard/play/{{ lottery.id }}" class="cmn-btn">play now!</a>
+                    </div>
+                </div><!-- jackpot-item end -->
+
+                {% endfor %}
+            </div>
         </div>
+    </section>
 
-        <div>
-            <h1>List of Tickets</h1>
-            <div class="divider">
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Lottery Number</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for ticket in tickets %}
-                    <tr>
-                        <th scope="row">{{ ticket.id }}</th>
-                        <td>{{ ticket.ticketNumber }}</td>
 
-                        <td><a class="btn btn-success" href="/dashboard/ticket/{{ ticket.id }}">Detail</a></td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>    
-    </div>
-</div>
+    <!-- cart-section start -->
+    <section class="cart-section section-padding">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="section-header text-center">
+                    <h2 class="section-title">Purchased Tickets</h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="cart-area d-flex">
+                        <div class="col-lg-12">
+                            <div class="cart-table">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Size</th>
+                                            <th>Ticket Amount</th>
+                                            <th>Jackpot</th>
+                                            <th>discount</th>
+                                            <th>details</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for ticket in tickets %}
+                                        <tr>
+                                            <td>{{ ticket.id }}</td>
+                                            <td>{{ ticket.ticketNumber }}</td>
+                                            <td><i class="fa fa-times"></i></td>
+                                            <td>$7.00</td>
+                                            <td>$0.00</td>
+                                            <td><a class="btn btn-success" href="/dashboard/ticket/{{ ticket.id }}"><i class="fa fa-trash"></i></a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {# <span class="pull-right mt-3">1 item</span> #}
+                        </div>                    
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- cart-section end -->
+
     {% include 'footer.html.twig' %}
 
 {% endblock %}

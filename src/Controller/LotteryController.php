@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\Lottery;
-use App\Form\Type\LotteryType;
+use App\Form\LotteryType;
 
 
 class LotteryController extends AbstractController

@@ -3,26 +3,194 @@
 {% block title %}Play{% endblock %}
 
 {% block body %}
-<h1>Play Lottery {{lottery.lotteryNumber}}</h1>
-<div>
-    <table class="table">
-        <tr>
-            <td scope="col">Size</td><td>{{ lottery.size }}</td>
-        </tr>
-        <tr>
-           <td scope="col">Ticket Amount</td><td>{{ lottery.ticketAmount }}</td>
-        </tr>                
-        <tr>                
-            <td scope="col">Jackpot</td><td>{{ lottery.jackpot }}</td>
-        </tr>                
-        <tr>
-            <td scope="col">Start At</td><td>{{ lottery.startAt | date('Y-m-d H:i:s') }}</td>
-        </tr>                                   
-        {# <tr>
-            <td>{{ lottery.closeAt | date('Y-m-d H:i:s') }}</td>
-        </tr> #}          
-    </table>
-    <a class="btn btn-success" href="{{ path('pay', {'id': lottery.id}) }}">Pay for Lottery Ticket</a>
-</div>
+
+    {% include 'menu.html.twig' %}
+
+    <!-- single-categories-play-section start -->
+    <section class="single-categories-play-section section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="single-cat-play-area">
+                        <div class="single-header d-flex justify-content-between">
+                            <div class="left d-flex">
+                                <div class="icon">
+                                <img src="assets/images/elements/jackpot-1.png" alt="">
+                                </div>
+                                <div class="content">
+                                <h3 class="title">{{lottery.lotteryNumber}}</h3>
+                                <span class="amount">${{lottery.jackpot | number_format(2, '.', ',')}}</span>
+                                </div>
+                            </div>
+                            <div class="right text-right">
+                                <span class="draw-days">draw in 3 days</span>
+                                <div class="header-btn-area">
+                                <button type="button" id="quick-pick-all">Quick Pick All</button>
+                                <button type="button" id="add-item"><i class="fa fa-plus"></i></button>
+                                <button type="button" id="delete-item"><i class="fa fa-trash"></i></button>
+                                </div>
+                            </div>
+                        </div><!-- single-header end -->
+                        <div class="single-body">
+                            <div class="single-body-inner d-flex">
+                                <div class="">
+                                    {# <button type="button" class="close-play-card"><i class="fa fa-times"></i></button> #}
+                                    <div class="play-card-inner text-center">
+                                        <div class="play-card-header">
+                                            <span class="number-amount">Pick 5 Numbers</span>
+                                            <div class="header-btn-area">
+                                                <button type="button" id="quick-pick1">quick pick</button>
+                                                <button type="button" id="clear-pick1">clear</button>
+                                            </div>
+                                        </div>
+                                    <div class="play-card-body">
+                                        <ul class="number-list">
+                                            <li>1</li>
+                                            <li>2</li>
+                                            <li>3</li>
+                                            <li>4</li>
+                                            <li>5</li>
+                                            <li>6</li>
+                                            <li>7</li>
+                                            <li>8</li>
+                                            <li>9</li>
+                                            <li>10</li>
+                                        </ul>
+                                        <hr>
+                                        <ul class="number-list">
+                                            <li>1</li>
+                                            <li>2</li>
+                                            <li>3</li>
+                                            <li>4</li>
+                                            <li>5</li>
+                                            <li>6</li>
+                                            <li>7</li>
+                                            <li>8</li>
+                                            <li>9</li>
+                                            <li>10</li>
+                                        </ul>
+                                        <hr>
+                                        <ul class="number-list">
+                                            <li>1</li>
+                                            <li>2</li>
+                                            <li>3</li>
+                                            <li>4</li>
+                                            <li>5</li>
+                                            <li>6</li>
+                                            <li>7</li>
+                                            <li>8</li>
+                                            <li>9</li>
+                                            <li>10</li>
+                                        </ul>
+                                        <hr>
+                                        <ul class="number-list">
+                                            <li>1</li>
+                                            <li>2</li>
+                                            <li>3</li>
+                                            <li>4</li>
+                                            <li>5</li>
+                                            <li>6</li>
+                                            <li>7</li>
+                                            <li>8</li>
+                                            <li>9</li>
+                                            <li>10</li>
+                                        </ul>
+                                        <hr>
+                                        <ul class="number-list">
+                                            <li>1</li>
+                                            <li>2</li>
+                                            <li>3</li>
+                                            <li>4</li>
+                                            <li>5</li>
+                                            <li>6</li>
+                                            <li>7</li>
+                                            <li>8</li>
+                                            <li>9</li>
+                                            <li>10</li>
+                                        </ul>                                    
+                                        
+                                        <span class="add-more-text">All Selected</span>
+                                        <ul class="number-list">
+                                            <li>1</li>
+                                            <li>2</li>
+                                            <li>3</li>
+                                            <li>4</li>
+                                            <li>5</li>
+                                            <li>6</li>
+                                            <li>7</li>
+                                            <li>8</li>
+                                            <li>9</li>
+                                            <li>10</li>
+                                        </ul>
+                                    </div>
+                                    <div class="play-card-footer">
+                                        <p class="play-card-footer-text">Selected Numbers:</p>
+                                        <div class="selected-numbers">
+                                            <span>9</span>
+                                            <span>13</span>
+                                            <span>20</span>
+                                            <span>22</span>
+                                            <span>29</span>
+                                            <span>8</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- play-card end -->
+                        </div>
+                        </div><!-- single-body end -->
+                        <div class="single-footer d-flex justify-content-between">
+                            <div class="left">
+                                <span>Winning Chances</span>
+                                <div class="progress">
+                                    <div class="progress-bar">50%</div>
+                                    </div>
+                                </div>
+                                <div class="right d-flex justify-content-between">
+                                    <div class="content">
+                                        <p>
+                                            <span>1 draw with 2 ticket:</span>
+                                            <span class="amount">2 x €3.50</span>
+                                        </p>
+                                        <p>
+                                            <span>Total Discount:</span>
+                                            <span class="amount">-€0.00</span>
+                                        </p>
+                                    </div>
+                                    <div class="card-cart-btn-area">
+                                        <a href="#" class="single-cart-btn">
+                                            <span class="single-cart-amount">$9.99</span>
+                                            add to cart
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>                
+                        </div>
+                    </div>                          
+                </div>   
+            </div>   
+        </div>
+    </section>            
+    <div class="container mb-5">
+        <table class="table">
+            <tr>
+                <td scope="col">Size</td><td>{{ lottery.size }}</td>
+            </tr>
+            <tr>
+            <td scope="col">Ticket Amount</td><td>{{ lottery.ticketAmount }}</td>
+            </tr>                
+            <tr>                
+                <td scope="col">Jackpot</td><td>{{ lottery.jackpot }}</td>
+            </tr>                
+            <tr>
+                <td scope="col">Start At</td><td>{{ lottery.startAt | date('Y-m-d H:i:s') }}</td>
+            </tr>                                   
+            {# <tr>
+                <td>{{ lottery.closeAt | date('Y-m-d H:i:s') }}</td>
+            </tr> #}          
+        </table>
+        <a class="btn btn-success" href="{{ path('pay', {'id': lottery.id}) }}">Pay for Lottery Ticket</a>
+    </div>
+
+    {% include 'footer.html.twig' %}
 
 {% endblock %}

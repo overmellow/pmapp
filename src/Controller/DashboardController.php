@@ -8,14 +8,14 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Lottery;
 use App\Entity\Ticket;
-use App\Form\Type\TicketType;
+use App\Form\TicketType;
 
 use Symfony\Component\HttpFoundation\Request;
 
 class DashboardController extends AbstractController
 {
     /**
-     * @Route("/dashboard", name="profile")
+     * @Route("/dashboard", name="dashboard")
      */
     public function index()
     {

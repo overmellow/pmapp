@@ -3,8 +3,10 @@
 {% block title %}Pay {% endblock %}
 
 {% block body %}
-<h1>Pay Lottery Ticket - {{lottery.lotteryNumber}}</h1>
-<hr>
+
+    {% include 'menu.html.twig' %}
+{# <h1>Pay Lottery Ticket - {{lottery.lotteryNumber}}</h1> #}
+{# <hr> #}
 {# 
 <div>
     <h4>Ticket Amount: {{ lottery.ticketAmount }}</h4>
@@ -24,5 +26,20 @@
     <a class="btn btn-success" href="/dashboard/buy/{{ lottery.id }}">Pay Lottery Ticket</a>
 </div>
  #}
-{{ form(form) }}
+    {# {{ form(form) }} #}
+    <div class="container mb-5">
+        Lottery Number: {{ lottery.lotteryNumber }}
+
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <br>
+        <input class="btn btn-success" type="submit"/>
+        
+        {{ form_end(form) }}
+
+    </div>
+
+    {% include 'footer.html.twig' %}
+
 {% endblock %}

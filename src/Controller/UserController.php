@@ -5,7 +5,7 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
-use App\Form\Type\UserType;
+use App\Form\UserType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -36,7 +36,7 @@ class UserController extends AbstractController
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
             $user = $form->getData();
-            $user->setRoles(array("USER_ROLE"));
+            $user->setRoles(array("ROLE_USER"));
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
 
             // ... perform some action, such as saving the task to the database
@@ -45,7 +45,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
     
-            return $this->redirectToRoute('profile');
+            return $this->redirectToRoute('dashboard');
         }
     
         return $this->render('user/new.html.twig', [

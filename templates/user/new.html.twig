@@ -3,7 +3,21 @@
 {% block title %}New User!{% endblock %}
 
 {% block body %}
-    <h1>Sign Up</h1>
-    <hr>
-    {{ form(form) }}
+    {% if user.email is defined %}
+        {% include 'menu.html.twig' with {'user.email': user.email } %}                        
+    {% else %}  
+        {% include 'menu.html.twig' %}                        
+    {% endif %}
+    {# {{ form(form) }} #}
+
+    <div class="container py-5">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <br>
+        <input class="btn btn-success" type="submit"/>
+        {{ form_end(form) }}
+    </div>
+
+    {% include 'footer.html.twig' %}
+
 {% endblock %}

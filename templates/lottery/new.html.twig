@@ -5,5 +5,11 @@
 {% block body %}
     <h1>Add New Lottery</h1>
     <div class="divider"></div>
-    {{ form(form) }}
+    {# {{ form(form) }} #}
+    
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+
+    <input type="submit"/>
+    {{ form_end(form) }}
 {% endblock %}
