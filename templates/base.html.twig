@@ -31,8 +31,6 @@
 
         {% block body %}{% endblock %}
 
-        {% block javascripts %}{% endblock %}
-
         <!-- jquery library js file -->
         <script src="{{ asset('assets/js/theme/jquery-3.3.1.min.js') }}"></script>
         <!-- bootstrap js file -->
@@ -54,6 +52,8 @@
         <script src="{{ asset('assets/js/theme/jquery.vmap.world.js') }}"></script>
         <!-- main script js file -->
         <script src="{{ asset('assets/js/theme/main.js') }}"></script>
+
+        {% block javascripts %}{% endblock %}
 
         <script>
             var clock = $('.clock').FlipClock(99000 * 24 * 3, {
