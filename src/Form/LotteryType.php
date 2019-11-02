@@ -16,7 +16,6 @@ class LotteryType extends AbstractType
             ->add('Size')
             ->add('ticket_amount')
             ->add('jackpot')
-            ->add('CreatedAt')
             ->add('StartAt')
             ->add('CloseAt')
             ->add('Active')

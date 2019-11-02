@@ -10,11 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Lottery;
 use App\Form\LotteryType;
 
-
 class LotteryController extends AbstractController
 {
     /**
-     * @Route("/admin/lottery", name="lottery")
+     * @Route("/admin/lotteries", name="admin-lotteries")
      */
     public function index(EntityManagerInterface $em)
     {
@@ -28,7 +27,7 @@ class LotteryController extends AbstractController
     }
 
     /**
-     * @Route("/admin/lottery/add", name="lottery-add")
+     * @Route("/admin/lottery/add", name="admin-lottery-add")
      */
     public function addLottery(EntityManagerInterface $em, Request $request)
     {
@@ -42,14 +41,14 @@ class LotteryController extends AbstractController
             // $form->getData() holds the submitted values
             // but, the original `$task` variable has also been updated
             $lottery = $form->getData();
-
+            $lottery->setCreatedAt(new \DateTime('now'));
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($lottery);
             $entityManager->flush();
     
-            return $this->redirectToRoute('');
+            return $this->redirectToRoute('admin-lotteries');
         }
     
         return $this->render('lottery/new.html.twig', [
@@ -58,7 +57,7 @@ class LotteryController extends AbstractController
     }
     
     /**
-     * @Route("/admin/lottery/detail/{id}", name="lottery-details")
+     * @Route("/admin/lotteries/detail/{id}", name="admin-lottery-details")
      */
     public function detailsLottery(EntityManagerInterface $em, Request $request, string $id)
     {

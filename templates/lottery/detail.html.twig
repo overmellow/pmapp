@@ -4,11 +4,10 @@
 
 {% block body %}
 
-    {% include 'menu.html.twig' %}
+    {% include 'admin-menu.html.twig' %}
 
-    <div>
-        <h1>Lottery Detail</h1>
-        <div class="divider">
+    <div class="container">
+        <h3>Lottery Detail</h3>
         <p>{{ lottery.lotteryNumber }}</p>
         <p>{{ lottery.size }}</p>
         <p>{{ lottery.ticketAmount }}</p>

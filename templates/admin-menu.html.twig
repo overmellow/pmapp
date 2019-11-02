@@ -36,7 +36,7 @@
                                 {% else %}  
                                   <a href="{{ path('app_login') }}">Login</a>
                                 {% endif %}
-                                </span>
+                              </span>
                           </div>
                       </div>
                   </div>
@@ -55,22 +55,17 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav main-menu ml-auto">                
-                <li><a href="{{ path('lotteries') }}">lotteries</a>
-                <li><a href="{{ path('results') }}">results</a>
-                <li><a href="{{ path('how-to-play') }}">how to play</a></li>
-                <li><a href="{{ path('faq') }}">faq</a></li>
-                <li><a href="{{ path('about-us') }}">about us</a></li>
-                <li><a href="{{ path('contact-us') }}">contact us</a></li>                
+                <li>
+                  <a href="{{ path('admin-lotteries') }}">lotteries</a>
+                  <ul class="sub-menu">
+                    <li><a href="{{ path('admin-lottery-add') }}">Add New Lottery</a></li>                    
+                  </ul>
+                </li>
+                </li>               
               </ul>
               <div class="header-join-part">
                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                  {% if is_granted('ROLE_ADMIN') %}
-                  <a class="cmn-btn" href="{{ path('admin-lotteries') }}">Admin</a>
-                  {% else %}
-                  <a class="cmn-btn" href="{{ path('dashboard') }}">Dashboard</a>
-                  {% endif %}
-                {% else %}  
-                <a class="cmn-btn" href="{{ path('signup') }}">join us</a>
+                <a class="cmn-btn" href="{{ path('dashboard') }}">Dashboard</a>
                 {% endif %}
                 {# <button type="button" class="cmn-btn" data-toggle="modal" data-target="#exampleModal">join us</button> #}
               </div>

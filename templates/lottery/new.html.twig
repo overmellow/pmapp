@@ -3,13 +3,19 @@
 {% block title %}New Lottery!{% endblock %}
 
 {% block body %}
-    <h1>Add New Lottery</h1>
-    <div class="divider"></div>
-    {# {{ form(form) }} #}
-    
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
 
-    <input type="submit"/>
-    {{ form_end(form) }}
+    {% include 'admin-menu.html.twig' %}
+
+    <div class="container mb-5">
+        <h3>Add New Lottery</h3>
+        {# {{ form(form) }} #}
+        
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <input type="submit"/>
+        {{ form_end(form) }}
+    </div>
+
+    {% include 'footer.html.twig' %}  
 {% endblock %}

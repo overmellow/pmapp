@@ -3,37 +3,43 @@
 {% block title %}Hello LotteryController!{% endblock %}
 
 {% block body %}
-<div>
-    <h1>List of Lotteries</h1>
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Lottery Number</th>
-                <th scope="col">Size</th>
-                <th scope="col">Ticket Amount</th>
-                <th scope="col">jackpot</th>
-                <th scope="col">Start At</th>
-                <th scope="col">Close At</th>
-                <th scope="col">Active</th>
-                <th scope="col">Details</th>                
-            </tr>
-        </thead>
-        <tbody>
-            {% for lottery in lotteries %}
-            <tr>
-                <th scope="row">{{ lottery.id }}</th>
-                <td>{{ lottery.lotteryNumber }}</td>
-                <td>{{ lottery.size }}</td>
-                <td>{{ lottery.ticketAmount }}</td>
-                <td>{{ lottery.jackpot }}</td>
-                <td>{{ lottery.startAt | date('Y-m-d H:i:s') }}</td>
-                <td>{{ lottery.closeAt | date('Y-m-d H:i:s') }}</td>
-                <td>{{ lottery.active }}</td>
-                <td><a class="btn btn-primary" href="/admin/lottery/detail/{{lottery.id}}">Detail</a></td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+
+    {% include 'admin-menu.html.twig' %}
+    
+    <div class="container">
+        <h4>List of Lotteries</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Lottery Number</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Ticket Amount</th>
+                    <th scope="col">jackpot</th>
+                    <th scope="col">Start At</th>
+                    <th scope="col">Close At</th>
+                    <th scope="col">Active</th>
+                    <th scope="col">Details</th>                
+                </tr>
+            </thead>
+            <tbody>
+                {% for lottery in lotteries %}
+                <tr>
+                    <th scope="row">{{ lottery.id }}</th>
+                    <td>{{ lottery.lotteryNumber }}</td>
+                    <td>{{ lottery.size }}</td>
+                    <td>{{ lottery.ticketAmount }}</td>
+                    <td>{{ lottery.jackpot }}</td>
+                    <td>{{ lottery.startAt | date('Y-m-d H:i:s') }}</td>
+                    <td>{{ lottery.closeAt | date('Y-m-d H:i:s') }}</td>
+                    <td>{{ lottery.active }}</td>
+                    <td><a class="btn btn-primary" href="/admin/lotteries/detail/{{lottery.id}}">Detail</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% include 'footer.html.twig' %}  
+    
 {% endblock %}
