@@ -6,14 +6,11 @@
 
     {% include 'admin-menu.html.twig' %}
 
-    <div class="container">
+    <div class="container mb-5">
+
         <h3>Lottery Detail</h3>
-        <p>{{ lottery.lotteryNumber }}</p>
-        <p>{{ lottery.size }}</p>
-        <p>{{ lottery.ticketAmount }}</p>
-        <p>{{ lottery.jackpot }}</p>
-        <p>{{ lottery.startAt | date('Y-m-d H:i:s') }}</p>
-        <p>{{ lottery.closeAt | date('Y-m-d H:i:s') }}</p>
+        <hr>
+        {{ form(form) }} 
     </div>
 
     {% include 'footer.html.twig' %}    

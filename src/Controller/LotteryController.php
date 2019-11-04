@@ -63,10 +63,16 @@ class LotteryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $lottery = $entityManager->getRepository(Lottery::class)->find($id);
+        // return $this->render('lottery/detail.html.twig', [
+        //     'controller_name' => 'LotteryController',
+        //     'lottery' => $lottery,
+        // ]); 
+        
+        $form = $this->createForm(LotteryType::class, $lottery);
+    
         return $this->render('lottery/detail.html.twig', [
-            'controller_name' => 'LotteryController',
-            'lottery' => $lottery,
-        ]);          
+            'form' => $form->createView(),
+        ]);
     }
     
 }

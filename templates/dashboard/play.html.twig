@@ -44,7 +44,7 @@
                                             </div>
                                         </div>
                                     <div class="play-card-body">
-                                        <div class="input-group mb-3">
+                                        {# <div class="input-group mb-3">
                                             <input type="number" class="form-control number" id="number_first" name="number_first" target="select_number_first" min="1" max="99">
                                         </div>
                                         <hr>
@@ -63,10 +63,10 @@
                                         <hr>
                                         <div class="input-group mb-3">
                                             <input type="number" class="form-control number" id="number_fifth" name="number_fifth" target="select_number_fifth" min="1" max="99">                                            
-                                        </div>
+                                        </div> #}
 
 
-                                        {# <ul class="number-list">
+                                        <ul class="number-list number" id="number_first"  target="select_number_first">
                                             <li>1</li>
                                             <li>2</li>
                                             <li>3</li>
@@ -76,10 +76,10 @@
                                             <li>7</li>
                                             <li>8</li>
                                             <li>9</li>
-                                            <li>10</li>
+                                            
                                         </ul>
                                         <hr>
-                                        <ul class="number-list">
+                                        <ul class="number-list number" id="number_second" target="select_number_second">
                                             <li>1</li>
                                             <li>2</li>
                                             <li>3</li>
@@ -89,10 +89,10 @@
                                             <li>7</li>
                                             <li>8</li>
                                             <li>9</li>
-                                            <li>10</li>
+                                            
                                         </ul>
                                         <hr>
-                                        <ul class="number-list">
+                                        <ul class="number-list number" id="number_third" target="select_number_third">
                                             <li>1</li>
                                             <li>2</li>
                                             <li>3</li>
@@ -102,10 +102,10 @@
                                             <li>7</li>
                                             <li>8</li>
                                             <li>9</li>
-                                            <li>10</li>
+                                            
                                         </ul>
                                         <hr>
-                                        <ul class="number-list">
+                                        <ul class="number-list number" id="number_fourth" target="select_number_fourth">
                                             <li>1</li>
                                             <li>2</li>
                                             <li>3</li>
@@ -115,10 +115,10 @@
                                             <li>7</li>
                                             <li>8</li>
                                             <li>9</li>
-                                            <li>10</li>
+                                            
                                         </ul>
                                         <hr>
-                                        <ul class="number-list">
+                                        <ul class="number-list number" id="number_fifth" target="select_number_fifth">
                                             <li>1</li>
                                             <li>2</li>
                                             <li>3</li>
@@ -128,10 +128,10 @@
                                             <li>7</li>
                                             <li>8</li>
                                             <li>9</li>
-                                            <li>10</li>
+                                            
                                         </ul>                                    
                                         
-                                        <span class="add-more-text">All Selected</span>
+                                        {# <span class="add-more-text">All Selected</span>
                                         <ul class="number-list">
                                             <li>1</li>
                                             <li>2</li>
@@ -142,17 +142,17 @@
                                             <li>7</li>
                                             <li>8</li>
                                             <li>9</li>
-                                            <li>10</li>
+                                            
                                         </ul> #}
                                     </div>
                                     <div class="play-card-footer">
                                         <p class="play-card-footer-text">Selected Numbers:</p>
                                         <div class="selected-numbers">
-                                            <span id="select_number_first">0</span>
-                                            <span id="select_number_second">0</span>
-                                            <span id="select_number_third">0</span>
-                                            <span id="select_number_fourth">0</span>
-                                            <span id="select_number_fifth">0</span>
+                                            <span class="selected_number" id="select_number_first">0</span>
+                                            <span class="selected_number" id="select_number_second">0</span>
+                                            <span class="selected_number" id="select_number_third">0</span>
+                                            <span class="selected_number" id="select_number_fourth">0</span>
+                                            <span class="selected_number" id="select_number_fifth">0</span>
                                             {# <span>8</span> #}
                                         </div>
                                     </div>
@@ -220,9 +220,61 @@
 {% block javascripts %}
 <script>
 jQuery(document).ready(function() {
-    $('.number').change(function(){
-       $('#'+ $(this).attr('target')).text($(this).val());
+    $('li').change(function(){
+       //$('#'+ $(this).attr('target')).text($(this).val());
+    });
+
+    $('ul.number > li').click(function(){
+        $(this).siblings().removeClass('active');
+        $('#'+ $(this).parent().attr('target')).text($(this).text());
+        //console.log($(this).text());
+    });
+
+    $('#clear-pick1').click(function(){
+        clearSelectedNumbers();
+    });
+
+    $('#quick-pick1').click(function(){
+        quickPick();
     });
 });
+
+function selectNumber(list, val){
+    $(list + ' > li:contains("'+val+'")').siblings().removeClass('active');
+    $(list + ' > li:contains("'+val+'")').addClass('active')
+}
+
+function clearSelectedNumbers(){
+    $('ul.number > li').removeClass('active');
+    $('.selected_number').text('0');
+}
+
+function quickPick(){
+
+    val = Math.floor(Math.random() * 9) + 1;
+    $('#select_number_first').text(val);
+    selectNumber('#number_first', val);
+
+    val = Math.floor(Math.random() * 9) + 1;
+    $('#select_number_second').text(val);
+    selectNumber('#number_second', val);
+
+
+    val = Math.floor(Math.random() * 9) + 1;
+    $('#select_number_third').text(val);
+    selectNumber('#number_third', val);
+
+
+    val = Math.floor(Math.random() * 9) + 1;
+    $('#select_number_fourth').text(val);
+    selectNumber('#number_fourth', val);
+
+
+    val = Math.floor(Math.random() * 9) + 1;
+    $('#select_number_fifth').text(val);
+    selectNumber('#number_fifth', val);
+
+    //$('#number_first > li:contains("'+val+'")').addClass('active');
+}
 </script>
 {% endblock %}
