@@ -26,12 +26,14 @@ class DashboardController extends AbstractController
         $entityManager = $this->getDoctrine()->getManager();
         $lotteries = $entityManager->getRepository(Lottery::class)->findAll();
         $tickets = $entityManager->getRepository(Ticket::class)->findAll();
+        $tempTickets = $entityManager->getRepository(TempTicket::class)->findAll();
 
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
             'user' => $user,
             'lotteries' => $lotteries,
             'tickets' => $tickets,
+            'tempTickets' => $tempTickets,
         ]);
     }
 
