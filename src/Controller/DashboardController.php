@@ -8,6 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Lottery;
 use App\Entity\Ticket;
+use App\Entity\User;
 use App\Entity\TempTicket;
 use App\Form\TicketType;
 use App\Form\TempTicketType;
@@ -24,9 +25,13 @@ class DashboardController extends AbstractController
         $user = $this->getUser();
 
         $entityManager = $this->getDoctrine()->getManager();
-        $lotteries = $entityManager->getRepository(Lottery::class)->findAll();
-        $tickets = $entityManager->getRepository(Ticket::class)->findAll();
-        $tempTickets = $entityManager->getRepository(TempTicket::class)->findAll();
+        $lotteries = $entityManager->getRepository(Lottery::class)->findall();
+        //$myUser = $entityManager-getRepository(User::class)->find($user->getId());
+        $tickets = $user->getTickets();
+        $tempTickets = $user->getTempTickets();
+        //$tickets = $entityManager->getRepository(Ticket::class)->findBy(array('user_id' => $user->getId()));
+        //$tickets = $entityManager->getRepository(Ticket::class)->findAll();
+        // $tempTickets = $entityManager->getRepository(TempTicket::class)->findAll();
 
         return $this->render('dashboard/index.html.twig', [
             'controller_name' => 'DashboardController',
@@ -66,7 +71,14 @@ class DashboardController extends AbstractController
             $entityManager->flush();
             $tempTicketId = $tempTicket->getId(); 
     
-            return $this->redirectToRoute('pay', ['id', $tempTicketId]);
+            $response = $this->forward('App\Controller\DashboardController::pay', [
+                'id'  => $tempTicketId,
+            ]);
+        
+            // ... further modify the response or return it directly
+        
+            return $response;
+            //ßreturn $this->redirectToRoute('pay', ['id', $tempTicketId]);
         }
     
         return $this->render('dashboard/play.html.twig', [
@@ -77,18 +89,21 @@ class DashboardController extends AbstractController
     }    
 
     /**
-     * @Route("/dashboard/play/{id}/pay", name="pay")
+     * @Route("/dashboard/play/pay/{id}", name="pay")
      */
     public function pay(Request $request, string $id)
     {
         $user = $this->getUser();
 
         $entityManager = $this->getDoctrine()->getManager();
-        $lottery = $entityManager->getRepository(Lottery::class)->find($id);
+        // $lottery = $entityManager->getRepository(Lottery::class)->find($id);
+        $tempTicket = $entityManager->getRepository(TempTicket::class)->find($id);
+        $lottery = $tempTicket->getLottery();
 
         $ticket = new Ticket();
         $ticket->setUser($user);
-        $ticket->setLottery($lottery);
+        $ticket->setLottery($tempTicket->getLottery());
+        $ticket->setTicketNumber($tempTicket->getTicketNumber());
 
         $form = $this->createForm(TicketType::class, $ticket);
 
@@ -98,11 +113,13 @@ class DashboardController extends AbstractController
             // but, the original `$task` variable has also been updated
             $ticket = $form->getData();
             $ticket->setStatus('confirmed');
-            $ticket->getPurchasedAt(date("d/m/Y"));
+            $ticket->setPurchasedAt(new \DateTime());
+            $ticket->setBitcoinTransactionDate(new \DateTime());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($ticket);
-            $entityManager->persist($lottery);
+            //$entityManager->persist($lottery);
             $entityManager->persist($user);
+            $entityManager->remove($tempTicket);
             $entityManager->flush();
     
             return $this->redirectToRoute('dashboard');
@@ -136,5 +153,22 @@ class DashboardController extends AbstractController
             'user' => $user,
             'ticket' => $ticket,
         ]);
-    }    
+    }
+    
+    /**
+     * @Route("/dashboard/tempticket/{id}", name="tempticket")
+     */
+    public function tempTicket(string $id)
+    {
+        $user = $this->getUser();
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $tempTicket = $entityManager->getRepository(TempTicket::class)->find($id);
+
+        return $this->render('dashboard/temp-ticket.html.twig', [
+            'controller_name' => 'DashboardController',
+            'user' => $user,
+            'tempTicket' => $tempTicket,
+        ]);
+    }  
 }

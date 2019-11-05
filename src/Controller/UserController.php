@@ -52,4 +52,34 @@ class UserController extends AbstractController
             'form' => $form->createView(),
         ]);            
     }
+
+    /**
+     * @Route("/reset", name="reset")
+     */
+    public function reset(EntityManagerInterface $em, Request $request)
+    {
+        $user = new User();
+
+        $form = $this->createForm(UserType::class, $user);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $user = $form->getData();
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
+
+            // ... perform some action, such as saving the task to the database
+            // for example, if Task is a Doctrine entity, save it!
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($user);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('dashboard');
+        }
+    
+        return $this->render('user/new.html.twig', [
+            'form' => $form->createView(),
+        ]);            
+    }    
 }
