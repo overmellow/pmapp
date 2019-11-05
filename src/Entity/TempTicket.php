@@ -21,26 +21,39 @@ class TempTicket
      */
     private $TicketNumber;
 
+    // /**
+    //  * @ORM\OneToOne(targetEntity="App\Entity\User", inversedBy="tempTicket", cascade={"persist", "remove"})
+    //  * @ORM\JoinColumn(nullable=false)
+    //  */
+    // private $User;
+
+    // /**
+    //  * @ORM\OneToOne(targetEntity="App\Entity\Lottery", inversedBy="tempTicket", cascade={"persist", "remove"})
+    //  * @ORM\JoinColumn(nullable=false)
+    //  */
+    // private $Lottery;
+
     /**
      * @ORM\Column(type="datetime")
      */
-    private $PickedAt;
-
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private $timer;
-
-    /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Lottery", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $Lottery;
+    private $createdAt;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $Status;
+    private $status;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="tempTickets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $User;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Lottery", inversedBy="tempTickets")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $Lottery;
 
     public function getId(): ?int
     {
@@ -59,26 +72,62 @@ class TempTicket
         return $this;
     }
 
-    public function getPickedAt(): ?\DateTimeInterface
+    // public function getUser(): ?User
+    // {
+    //     return $this->User;
+    // }
+
+    // public function setUser(User $User): self
+    // {
+    //     $this->User = $User;
+
+    //     return $this;
+    // }
+
+    // public function getLottery(): ?Lottery
+    // {
+    //     return $this->Lottery;
+    // }
+
+    // public function setLottery(Lottery $Lottery): self
+    // {
+    //     $this->Lottery = $Lottery;
+
+    //     return $this;
+    // }
+
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->PickedAt;
+        return $this->createdAt;
     }
 
-    public function setPickedAt(\DateTimeInterface $PickedAt): self
+    public function setCreatedAt(\DateTimeInterface $createdAt): self
     {
-        $this->PickedAt = $PickedAt;
+        $this->createdAt = $createdAt;
 
         return $this;
     }
 
-    public function getTimer(): ?int
+    public function getStatus(): ?string
     {
-        return $this->timer;
+        return $this->status;
     }
 
-    public function setTimer(int $timer): self
+    public function setStatus(string $status): self
     {
-        $this->timer = $timer;
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }
@@ -88,21 +137,9 @@ class TempTicket
         return $this->Lottery;
     }
 
-    public function setLottery(Lottery $Lottery): self
+    public function setLottery(?Lottery $Lottery): self
     {
         $this->Lottery = $Lottery;
-
-        return $this;
-    }
-
-    public function getStatus(): ?string
-    {
-        return $this->Status;
-    }
-
-    public function setStatus(string $Status): self
-    {
-        $this->Status = $Status;
 
         return $this;
     }

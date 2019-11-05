@@ -63,9 +63,20 @@ class Lottery
      */
     private $tickets;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\TempTicket", mappedBy="Lottery", cascade={"persist", "remove"})
+     */
+    private $tempTicket;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TempTicket", mappedBy="Lottery")
+     */
+    private $tempTickets;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
+        $this->tempTickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -199,4 +210,52 @@ class Lottery
 
         return $this;
     }
+
+    /**
+     * @return Collection|TempTicket[]
+     */
+    public function getTempTickets(): Collection
+    {
+        return $this->tempTickets;
+    }
+
+    public function addTempTicket(TempTicket $tempTicket): self
+    {
+        if (!$this->tempTickets->contains($tempTicket)) {
+            $this->tempTickets[] = $tempTicket;
+            $tempTicket->setLottery($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTempTicket(TempTicket $tempTicket): self
+    {
+        if ($this->tempTickets->contains($tempTicket)) {
+            $this->tempTickets->removeElement($tempTicket);
+            // set the owning side to null (unless already changed)
+            if ($tempTicket->getLottery() === $this) {
+                $tempTicket->setLottery(null);
+            }
+        }
+
+        return $this;
+    }
+
+    // public function getTempTicket(): ?TempTicket
+    // {
+    //     return $this->tempTicket;
+    // }
+
+    // public function setTempTicket(TempTicket $tempTicket): self
+    // {
+    //     $this->tempTicket = $tempTicket;
+
+    //     // set the owning side of the relation if necessary
+    //     if ($this !== $tempTicket->getLottery()) {
+    //         $tempTicket->setLottery($this);
+    //     }
+
+    //     return $this;
+    // }
 }

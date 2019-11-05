@@ -44,9 +44,20 @@ class User implements UserInterface
      */
     private $tickets;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\TempTicket", mappedBy="User", cascade={"persist", "remove"})
+     */
+    private $tempTicket;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\TempTicket", mappedBy="User")
+     */
+    private $tempTickets;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
+        $this->tempTickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -157,4 +168,52 @@ class User implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|TempTicket[]
+     */
+    public function getTempTickets(): Collection
+    {
+        return $this->tempTickets;
+    }
+
+    public function addTempTicket(TempTicket $tempTicket): self
+    {
+        if (!$this->tempTickets->contains($tempTicket)) {
+            $this->tempTickets[] = $tempTicket;
+            $tempTicket->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTempTicket(TempTicket $tempTicket): self
+    {
+        if ($this->tempTickets->contains($tempTicket)) {
+            $this->tempTickets->removeElement($tempTicket);
+            // set the owning side to null (unless already changed)
+            if ($tempTicket->getUser() === $this) {
+                $tempTicket->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    // public function getTempTicket(): ?TempTicket
+    // {
+    //     return $this->tempTicket;
+    // }
+
+    // public function setTempTicket(TempTicket $tempTicket): self
+    // {
+    //     $this->tempTicket = $tempTicket;
+
+    //     // set the owning side of the relation if necessary
+    //     if ($this !== $tempTicket->getUser()) {
+    //         $tempTicket->setUser($this);
+    //     }
+
+    //     return $this;
+    // }
 }

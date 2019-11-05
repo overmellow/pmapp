@@ -22,14 +22,14 @@
                                 <span class="amount">${{lottery.jackpot | number_format(2, '.', ',')}}</span>
                                 </div>
                             </div>
-                            <div class="right text-right">
+                            {# <div class="right text-right">
                                 <span class="draw-days">draw in 3 days</span>
                                 <div class="header-btn-area">
                                 <button type="button" id="quick-pick-all">Quick Pick All</button>
                                 <button type="button" id="add-item"><i class="fa fa-plus"></i></button>
                                 <button type="button" id="delete-item"><i class="fa fa-trash"></i></button>
                                 </div>
-                            </div>
+                            </div> #}
                         </div><!-- single-header end -->
                         <div class="single-body">
                             <div class="single-body-inner d-flex">
@@ -39,8 +39,8 @@
                                         <div class="play-card-header">
                                             <span class="number-amount">Pick 5 Numbers</span>
                                             <div class="header-btn-area">
-                                                <button type="button" id="quick-pick1">quick pick</button>
-                                                <button type="button" id="clear-pick1">clear</button>
+                                                <button type="button" class"btn btn-light" id="quick-pick1">quick pick</button>
+                                                <button type="button" class"btn btn-light" id="clear-pick1">clear</button>
                                             </div>
                                         </div>
                                     <div class="play-card-body">
@@ -191,7 +191,8 @@
                 </div>   
             </div>   
         </div>
-    </section>            
+    </section>
+{#                 
     <div class="container mb-5">
         <table class="table">
             <tr>
@@ -206,11 +207,21 @@
             <tr>
                 <td scope="col">Start At</td><td>{{ lottery.startAt | date('Y-m-d H:i:s') }}</td>
             </tr>                                   
-            {# <tr>
+            <tr>
                 <td>{{ lottery.closeAt | date('Y-m-d H:i:s') }}</td>
-            </tr> #}          
+            </tr>
         </table>
         <a class="btn btn-success" href="{{ path('pay', {'id': lottery.id}) }}">Pay for Lottery Ticket</a>
+    </div>
+ #}
+    <div class="container mb-5">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+
+        <br>
+        <input class="btn btn-success" type="submit"/>
+        
+        {{ form_end(form) }}
     </div>
 
     {% include 'footer.html.twig' %}
@@ -227,6 +238,7 @@ jQuery(document).ready(function() {
     $('ul.number > li').click(function(){
         $(this).siblings().removeClass('active');
         $('#'+ $(this).parent().attr('target')).text($(this).text());
+        getSelectedNumbers();
         //console.log($(this).text());
     });
 
@@ -242,11 +254,24 @@ jQuery(document).ready(function() {
 function selectNumber(list, val){
     $(list + ' > li:contains("'+val+'")').siblings().removeClass('active');
     $(list + ' > li:contains("'+val+'")').addClass('active')
+    getSelectedNumbers();
 }
 
 function clearSelectedNumbers(){
     $('ul.number > li').removeClass('active');
     $('.selected_number').text('0');
+    getSelectedNumbers();
+}
+
+function getSelectedNumbers(){
+    temp = '';
+    $('.selected_number').each(function(i) {
+        //$(this).attr('rel'); // This is your rel value
+        //console.log($(this).text());
+        temp += $(this).text();
+    });
+    console.log(temp);
+    $('#temp_ticket_TicketNumber').val(temp);
 }
 
 function quickPick(){

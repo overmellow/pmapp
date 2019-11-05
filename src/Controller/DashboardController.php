@@ -8,7 +8,9 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Lottery;
 use App\Entity\Ticket;
+use App\Entity\TempTicket;
 use App\Form\TicketType;
+use App\Form\TempTicketType;
 
 use Symfony\Component\HttpFoundation\Request;
 
@@ -36,15 +38,37 @@ class DashboardController extends AbstractController
     /**
      * @Route("/dashboard/play/{id}", name="play")
      */
-    public function play(string $id)
+    public function play(Request $request, string $id)
     {
         $user = $this->getUser();
 
         $entityManager = $this->getDoctrine()->getManager();
         $lottery = $entityManager->getRepository(Lottery::class)->find($id);
 
+        $tempTicket = new TempTicket();
+        $tempTicket->setUser($user);
+        $tempTicket->setLottery($lottery);
+
+        $form = $this->createForm(TempTicketType::class, $tempTicket);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // $form->getData() holds the submitted values
+            // but, the original `$task` variable has also been updated
+            $tempTicket = $form->getData();
+            $tempTicket->setCreatedAt(new \DateTime());
+            $tempTicket->setStatus('pending');
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($tempTicket);
+            $entityManager->persist($lottery);
+            $entityManager->persist($user);
+            $entityManager->flush();
+            $tempTicketId = $tempTicket->getId(); 
+    
+            return $this->redirectToRoute('pay', ['id', $tempTicketId]);
+        }
+    
         return $this->render('dashboard/play.html.twig', [
-            'controller_name' => 'DashboardController',
+            'form' => $form->createView(),
             'user' => $user,
             'lottery' => $lottery,
         ]);
