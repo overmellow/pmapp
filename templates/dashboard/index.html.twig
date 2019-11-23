@@ -25,10 +25,10 @@
                 <div class="col-lg-4 col-sm-6">
                     <div class="jackpot-item text-center">
                     <img src="{{ asset('assets/images/theme/elements/jackpot-1.png') }}" alt="image">
-                    <span class="amount">${{ lottery.jackpot | number_format(2, '.', ',') }}</span>
+                    <span class="amount">Win ${{ lottery.jackpot | number_format(2, '.', ',') }}</span>
                     <h5 class="title">{{ lottery.lotteryNumber }}</h5>
                     <p class="next-draw-time">Ticket Price: ${{ lottery.ticketAmount | number_format(2, '.', ',') }}</p>
-                    <p class="next-draw-time">Started At: {{ lottery.startAt | date('Y-m-d H:i:s') }}</p>
+                    {# <p class="next-draw-time">Started At: {{ lottery.startAt | date('Y-m-d H:i:s') }}</p> #}
                     {# <p class="next-draw-time">Next Draw : <span id="remainTime1"></span></p> #}
                     <a href="/dashboard/play/{{ lottery.id }}" class="cmn-btn">play now!</a>
                     </div>
@@ -59,11 +59,12 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Size</th>
+                                            <th>Ticket Ref No</th>
+                                            <th>Ticket Number</th>
+                                            <th>Date</th>
                                             <th>Ticket Amount</th>
-                                            <th>Jackpot</th>
-                                            <th>discount</th>
+                                            <th>Lottery No</th>
+                                            <th>Jackpot</th>                                            
                                             <th>details</th>
                                         </tr>
                                     </thead>
@@ -72,9 +73,10 @@
                                         <tr>
                                             <td>{{ ticket.id }}</td>
                                             <td>{{ ticket.ticketNumber }}</td>
-                                            <td><i class="fa fa-times"></i></td>
-                                            <td>$7.00</td>
-                                            <td>$0.00</td>
+                                            <td>{{ ticket.purchasedAt |date }}</td>
+                                            <td>${{ ticket.amount }}</td>
+                                            <td>{{ticket.lottery.lotteryNumber}}</td>
+                                            <td>${{ticket.lottery.jackpot}}</td>
                                             <td><a class="btn btn-success" href="/dashboard/ticket/{{ ticket.id }}"><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                         {% endfor %}
@@ -108,12 +110,15 @@
                                 <table>
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Size</th>
+                                            <th>Ticket Ref No</th>
                                             <th>Ticket Number</th>
+                                            <th>Ticket Amount</th>
+                                            <th>Reserved At</th>
+                                            <th>Expire At</th>
+                                            <th>Lottery No</th>
                                             <th>Jackpot</th>
-                                            <th>discount</th>
-                                            <th>details</th>
+                                            <th>Status</th>                                            
+                                            <th>Details</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -121,9 +126,12 @@
                                         <tr>
                                             <td>{{ tempTicket.id }}</td>
                                             <td>{{ tempTicket.ticketNumber }}</td>
-                                            <td><i class="fa fa-times"></i></td>
-                                            <td>$7.00</td>
-                                            <td>$0.00</td>
+                                            <td>${{ tempTicket.amount }}</td>
+                                            <td>{{ tempTicket.CreatedAt |date }}</td>
+                                            <td>{{ tempTicket.CreatedAt |date_modify("+30 minute")|date}}</td>
+                                            <td>{{ tempTicket.lottery.lotteryNumber }}</td>
+                                            <td>${{ tempTicket.lottery.jackpot }}</td>
+                                            <td>{{ tempTicket.Status }}</td>
                                             <td><a class="btn btn-success" href="/dashboard/play/pay/{{ tempTicket.id }}"><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                         {% endfor %}

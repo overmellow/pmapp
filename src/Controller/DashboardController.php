@@ -13,6 +13,9 @@ use App\Entity\TempTicket;
 use App\Form\TicketType;
 use App\Form\TempTicketType;
 
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+
 use Symfony\Component\HttpFoundation\Request;
 
 class DashboardController extends AbstractController
@@ -45,7 +48,7 @@ class DashboardController extends AbstractController
     /**
      * @Route("/dashboard/play/{id}", name="play")
      */
-    public function play(Request $request, string $id)
+    public function play(Request $request, \Swift_Mailer $mailer, string $id)
     {
         $user = $this->getUser();
 
@@ -63,6 +66,7 @@ class DashboardController extends AbstractController
             // but, the original `$task` variable has also been updated
             $tempTicket = $form->getData();
             $tempTicket->setCreatedAt(new \DateTime());
+            $tempTicket->setAmount($lotter->getAmount());
             $tempTicket->setStatus('pending');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tempTicket);
@@ -70,15 +74,31 @@ class DashboardController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
             $tempTicketId = $tempTicket->getId(); 
+
+            $bitcoinWallet = $_ENV['BITCOIN_WALLET'];
     
-            $response = $this->forward('App\Controller\DashboardController::pay', [
-                'id'  => $tempTicketId,
-            ]);
-        
-            // ... further modify the response or return it directly
-        
-            return $response;
-            //ßreturn $this->redirectToRoute('pay', ['id', $tempTicketId]);
+            $message = (new \Swift_Message('Bitcoin Payment Instruction'))
+                ->setFrom('morteza_faraji@email.com')
+                ->setTo('morteza_faraji@yahoo.com')
+                ->setBody(
+                    $this->renderView(
+                        'dashboard/emails/temp-ticket.html.twig',
+                        [
+                            'tempTicketId' => $tempTicketId,
+                            'bitcoinWallet' => $bitcoinWallet,
+                        ]
+                    ),
+                    'text/html'
+                );
+    
+            $mailer->send($message);
+            
+            // $response = $this->forward('App\Controller\DashboardController::pay', [
+            //     'id'  => $tempTicketId,
+            // ]);            
+            // return $response;
+            
+            return $this->redirectToRoute('pay', array('id' => $tempTicketId));
         }
     
         return $this->render('dashboard/play.html.twig', [
@@ -104,6 +124,7 @@ class DashboardController extends AbstractController
         $ticket->setUser($user);
         $ticket->setLottery($tempTicket->getLottery());
         $ticket->setTicketNumber($tempTicket->getTicketNumber());
+        setAmTicketNumber($tempTicket->getTicketNumber());
 
         $form = $this->createForm(TicketType::class, $ticket);
 
@@ -115,6 +136,7 @@ class DashboardController extends AbstractController
             $ticket->setStatus('confirmed');
             $ticket->setPurchasedAt(new \DateTime());
             $ticket->setBitcoinTransactionDate(new \DateTime());
+            $ticket->setAmount($tempTicket->getLottery()->getAmount());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($ticket);
             //$entityManager->persist($lottery);
@@ -129,6 +151,7 @@ class DashboardController extends AbstractController
             'form' => $form->createView(),
             'user' => $user,
             'lottery' => $lottery,
+            'ticket' => $ticket,
         ]);             
 
         // return $this->render('dashboard/pay.html.twig', [
@@ -170,5 +193,33 @@ class DashboardController extends AbstractController
             'user' => $user,
             'tempTicket' => $tempTicket,
         ]);
-    }  
+    }
+    
+    /**
+     * @Route("/test", name="test")
+     */
+    public function test(\Swift_Mailer $mailer){
+        $bitcoinWallet = $_ENV['BITCOIN_WALLET'];
+        $tempTicketId = "1";
+
+        $message = (new \Swift_Message('Bitcoin Payment Instruction'))
+            ->setFrom('morteza_faraji@email.com')
+            ->setTo('morteza_faraji@yahoo.com')
+            ->setBody(
+                $this->renderView(
+                    'dashboard/emails/temp-ticket.html.twig',
+                    [
+                        'tempTicketId' => $tempTicketId,
+                        'bitcoinWallet' => $bitcoinWallet,
+                    ]
+                ),
+                'text/html'
+            );
+
+        $mailer->send($message);
+        
+        return $this->render('dashboard/test.html.twig', [
+            'controller_name' => 'DashboardController',
+        ]);
+    }
 }

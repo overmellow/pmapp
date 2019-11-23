@@ -53,6 +53,11 @@ class Ticket
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=0)
+     */
+    private $Amount;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,6 +143,18 @@ class Ticket
     public function setStatus(string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getAmount(): ?string
+    {
+        return $this->Amount;
+    }
+
+    public function setAmount(string $Amount): self
+    {
+        $this->Amount = $Amount;
 
         return $this;
     }

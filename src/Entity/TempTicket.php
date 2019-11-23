@@ -55,6 +55,11 @@ class TempTicket
      */
     private $Lottery;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=0)
+     */
+    private $Amount;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -140,6 +145,18 @@ class TempTicket
     public function setLottery(?Lottery $Lottery): self
     {
         $this->Lottery = $Lottery;
+
+        return $this;
+    }
+
+    public function getAmount(): ?string
+    {
+        return $this->Amount;
+    }
+
+    public function setAmount(string $Amount): self
+    {
+        $this->Amount = $Amount;
 
         return $this;
     }

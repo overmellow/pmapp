@@ -12,7 +12,7 @@ class TicketType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('TicketNumber')
+            // ->add('TicketNumber')
             ->add('BitcoinTransactionNumber')
             // ->add('PurchasedAt')
             // ->add('BitcoinTransactionDate')

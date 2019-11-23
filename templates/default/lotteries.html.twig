@@ -48,7 +48,8 @@
               <h5 class="title">{{ lottery.lotteryNumber }}</h5>
               <p class="next-draw-time">Ticket Price: ${{ lottery.ticketAmount | number_format(2, '.', ',') }}</p>
               {# <p class="next-draw-time">Next Draw : <span id="remainTime1"></span></p> #}
-              <a href="#0" class="cmn-btn">play now!</a>
+              {# <a href="#0" class="cmn-btn">play now!</a> #}
+              <a href="/dashboard/play/{{ lottery.id }}" class="cmn-btn">play now!</a>
             </div>
           </div><!-- jackpot-item end -->
 

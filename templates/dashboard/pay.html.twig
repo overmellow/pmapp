@@ -28,15 +28,30 @@
  #}
     {# {{ form(form) }} #}
     <div class="container mb-5">
-        Lottery Number: {{ lottery.lotteryNumber }}
+        <div class="card">
+            <div class="card-header">
+                Ticket Details
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">
+                    Lottery Number: {{ lottery.lotteryNumber }}
+                </li>    
+                <li class="list-group-item">
+                Ticket Number: {{ ticket.ticketNumber}}
+                </li>    
+                
+                
+            </ul>
+            <div class="card-footer">
+                {{ form_start(form) }}
+                {{ form_widget(form) }}
 
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-
-        <br>
-        <input class="btn btn-success" type="submit"/>
+                <input class="btn btn-success" type="submit"/>
+                
+                {{ form_end(form) }}
+            </div>
+        </div>    
         
-        {{ form_end(form) }}
 
     </div>
 
