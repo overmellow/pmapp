@@ -6,20 +6,20 @@
               <div class="row justify-content-between">
                   <div class="col-lg-6 col-md-6">
                       <div class="header-top-left d-flex">
-                          <div class="language-part">
+                          {# <div class="language-part">
                               <i class="fa fa-globe"></i>
                               <select>
                                   <option>Eng</option>
-                                  {# <option>Ban</option>
+                                  <option>Ban</option>
                                   <option>Rus</option>
-                                  <option>Arb</option> #}
+                                  <option>Arb</option>
                               </select>
-                          </div>
-                          <div class="support-part">
+                          </div> #}
+                          {# <div class="support-part">
                               <a href="tel:+88016558888454"><i class="fa fa-headphones"></i>Support</a>
-                          </div>
+                          </div> #}
                           <div class="email-part">
-                              <a href="mailto:info@sorteo.com"><i class="fa fa-envelope"></i>info@sorteo.com</a>
+                              <a href="mailto:info@sorteo.com"><i class="fa fa-envelope"></i>info@premiummillionaire.com</a>
                           </div>
                       </div>
                   </div>
@@ -27,16 +27,17 @@
                       <div class="header-top-right">
                           <div class="header-cart-count">
                               {% if is_granted('IS_AUTHENTICATED_FULLY') %}
-                              <a href="{{ path('app_logout') }}"<i class="fa fa-sign-out"></i></a>
+                              <a href="{{ path('app_logout') }}"><i class="fa fa-sign-out"></i></a>
+                              <a href="{{ path('profile') }}"><i class="fa fa-user"></i></a>
                               {% endif %}
-                              {# <span>My cart (0)</span> #}
+                              {# <span>My cart (0)</span> #}                              
                               <span>
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                   {{ app.user.email }}
                                 {% else %}  
                                   <a href="{{ path('app_login') }}">Login</a>
                                 {% endif %}
-                                </span>
+                              </span>
                           </div>
                       </div>
                   </div>

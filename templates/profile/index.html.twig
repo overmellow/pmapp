@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} Profile{% endblock %}
+
+{% block body %}
+
+    {% include 'menu.html.twig' %}
+
+    <div class="container mb-5">
+
+        <h3>User Detail</h3>
+        <hr>
+        {{ form(form) }} 
+    </div>
+
+    {% include 'footer.html.twig' %}    
+{% endblock %}
