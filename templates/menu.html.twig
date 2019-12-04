@@ -29,8 +29,12 @@
                               {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                               <a href="{{ path('app_logout') }}"><i class="fa fa-sign-out"></i></a>
                               <a href="{{ path('profile') }}"><i class="fa fa-user"></i></a>
+                              {% else %}
+                              <span>
+                              {# <span>My cart (0)</span> #} 
+                              <a href="{{ path('signup') }}">Join Us</a>                             
+                              </span>
                               {% endif %}
-                              {# <span>My cart (0)</span> #}                              
                               <span>
                                 {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                   {{ app.user.email }}
@@ -71,7 +75,7 @@
                   <a class="cmn-btn" href="{{ path('dashboard') }}">Dashboard</a>
                   {% endif %}
                 {% else %}  
-                <a class="cmn-btn" href="{{ path('signup') }}">join us</a>
+                {# <a class="cmn-btn" href="{{ path('signup') }}">join us</a> #}
                 {% endif %}
                 {# <button type="button" class="cmn-btn" data-toggle="modal" data-target="#exampleModal">join us</button> #}
               </div>

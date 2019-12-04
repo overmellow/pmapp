@@ -27,6 +27,7 @@
                     <img src="{{ asset('assets/images/theme/elements/jackpot-1.png') }}" alt="image">
                     <span class="amount">Win ${{ lottery.jackpot | number_format(2, '.', ',') }}</span>
                     <h5 class="title">{{ lottery.lotteryNumber }}</h5>
+                    <p class="next-draw-time">Sold Tickets: {{ lottery.tickets | length }} out of {{ lottery.size }}</p>
                     <p class="next-draw-time">Ticket Price: ${{ lottery.ticketAmount | number_format(2, '.', ',') }}</p>
                     {# <p class="next-draw-time">Started At: {{ lottery.startAt | date('Y-m-d H:i:s') }}</p> #}
                     {# <p class="next-draw-time">Next Draw : <span id="remainTime1"></span></p> #}
@@ -64,7 +65,8 @@
                                             <th>Date</th>
                                             <th>Ticket Amount</th>
                                             <th>Lottery No</th>
-                                            <th>Jackpot</th>                                            
+                                            <th>Jackpot</th>
+                                            <th>Status</th>                                            
                                             <th>details</th>
                                         </tr>
                                     </thead>
@@ -77,6 +79,7 @@
                                             <td>${{ ticket.amount }}</td>
                                             <td>{{ticket.lottery.lotteryNumber}}</td>
                                             <td>${{ticket.lottery.jackpot}}</td>
+                                            <td>{{ticket.status}}</td>
                                             <td><a class="btn btn-success" href="/dashboard/ticket/{{ ticket.id }}"><i class="fa fa-trash"></i></a></td>
                                         </tr>
                                         {% endfor %}

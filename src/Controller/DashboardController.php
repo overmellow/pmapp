@@ -66,7 +66,7 @@ class DashboardController extends AbstractController
             // but, the original `$task` variable has also been updated
             $tempTicket = $form->getData();
             $tempTicket->setCreatedAt(new \DateTime());
-            $tempTicket->setAmount($lotter->getAmount());
+            $tempTicket->setAmount($lottery->getTicketAmount());
             $tempTicket->setStatus('pending');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tempTicket);
@@ -124,22 +124,18 @@ class DashboardController extends AbstractController
         $ticket->setUser($user);
         $ticket->setLottery($tempTicket->getLottery());
         $ticket->setTicketNumber($tempTicket->getTicketNumber());
-        setAmTicketNumber($tempTicket->getTicketNumber());
 
         $form = $this->createForm(TicketType::class, $ticket);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            // $form->getData() holds the submitted values
-            // but, the original `$task` variable has also been updated
             $ticket = $form->getData();
-            $ticket->setStatus('confirmed');
+            $ticket->setStatus('unverifed');
             $ticket->setPurchasedAt(new \DateTime());
             $ticket->setBitcoinTransactionDate(new \DateTime());
-            $ticket->setAmount($tempTicket->getLottery()->getAmount());
+            $ticket->setAmount($tempTicket->getLottery()->getTicketAmount());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($ticket);
-            //$entityManager->persist($lottery);
             $entityManager->persist($user);
             $entityManager->remove($tempTicket);
             $entityManager->flush();
@@ -154,11 +150,6 @@ class DashboardController extends AbstractController
             'ticket' => $ticket,
         ]);             
 
-        // return $this->render('dashboard/pay.html.twig', [
-        //     'controller_name' => 'DashboardController',
-        //     'user' => $user,
-        //     'lottery' => $lottery,
-        // ]);
     }
 
     /**

@@ -10,13 +10,42 @@
     {% endif %}
     {# {{ form(form) }} #}
 
-    <div class="container py-5">
+    <div class="container my-5">
+        <form method="post">
+            {# {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %} #}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <div class="card d-flex justify-content-center">
+                <h5 class="card-header">Please sign up</h5>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" >
+
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Sign up
+                    </button>
+                    {{ form_end(form) }}
+                </div>
+
+            </div>
+        </form>
+    </div>    
+
+    {# <div class="container py-5">
         {{ form_start(form) }}
         {{ form_widget(form) }}
         <br>
         <input class="btn btn-success" type="submit"/>
         {{ form_end(form) }}
-    </div>
+    </div> #}
 
     {% include 'footer.html.twig' %}
 
