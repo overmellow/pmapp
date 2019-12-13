@@ -79,7 +79,7 @@ class DashboardController extends AbstractController
     
             $message = (new \Swift_Message('Bitcoin Payment Instruction'))
                 ->setFrom('morteza_faraji@email.com')
-                ->setTo('morteza_faraji@yahoo.com')
+                ->setTo($user->getEmail())
                 ->setBody(
                     $this->renderView(
                         'dashboard/emails/temp-ticket.html.twig',
@@ -130,7 +130,7 @@ class DashboardController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $ticket = $form->getData();
-            $ticket->setStatus('unverifed');
+            $ticket->setStatus('unverified');
             $ticket->setPurchasedAt(new \DateTime());
             $ticket->setBitcoinTransactionDate(new \DateTime());
             $ticket->setAmount($tempTicket->getLottery()->getTicketAmount());

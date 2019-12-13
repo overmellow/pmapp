@@ -7,11 +7,53 @@
     {% include 'admin-menu.html.twig' %}
 
     <div class="container mb-5">
-
-        <h3>Lottery Detail</h3>
-        <hr>
-        {{ form(form) }} 
+        <div class="card mb-5">
+            <div class="card-header">
+                <h5>Lottery Detail</h5>
+            </div>
+            <div class="card-body">
+                {{ form(form) }}                
+            </div>
+        </div>
     </div>
+
+    <div class="container mb-5">
+        <div class="card mb-5">
+            <div class="card-header">
+                <h5>List of its tickets </h5>
+            </div>
+            {# <div class="cart-table"> #}
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Ticket Ref No</th>
+                            <th>Ticket Number</th>
+                            <th>Date</th>
+                            <th>Ticket Amount</th>
+                            <th>Lottery No</th>
+                            <th>Jackpot</th>
+                            <th>Status</th>                                            
+                            <th>details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for ticket in lottery.tickets %}
+                        <tr>
+                            <td>{{ ticket.id }}</td>
+                            <td>{{ ticket.ticketNumber }}</td>
+                            <td>{{ ticket.purchasedAt |date }}</td>
+                            <td>${{ ticket.amount }}</td>
+                            <td>{{ticket.lottery.lotteryNumber}}</td>
+                            <td>${{ticket.lottery.jackpot}}</td>
+                            <td>{{ticket.status}}</td>
+                            <td><a class="btn btn-success" href="/admin/lotteries/{{lottery.id}}/ticket/{{ ticket.id }}/details"><i class="fa fa-info"></i></a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {# </div> #}
+        </div>
+    </div>    
 
     {% include 'footer.html.twig' %}    
 {% endblock %}

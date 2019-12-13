@@ -9,6 +9,10 @@ use Symfony\Component\HttpFoundation\Request;
 
 use App\Entity\Lottery;
 use App\Form\LotteryType;
+use App\Entity\Ticket;
+use App\Form\TicketType;
+
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class LotteryController extends AbstractController
 {
@@ -72,6 +76,38 @@ class LotteryController extends AbstractController
     
         return $this->render('lottery/detail.html.twig', [
             'form' => $form->createView(),
+            'lottery' => $lottery,
+        ]);
+    }
+
+    /**
+     * @Route("/admin/lotteries/{lotteryId}/ticket/{ticketId}/details", name="admin-lottery-ticket-details")
+     */
+    public function detailsTicket(EntityManagerInterface $em, Request $request, string $lotteryId, string $ticketId)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $ticket = $entityManager->getRepository(Ticket::class)->find($ticketId);   
+        
+        // $form = $this->createForm(TicketType::class, $ticket);
+        $form = $this->createFormBuilder($ticket)
+            ->add('save', SubmitType::class, ['label' => 'Verify BitCoin Transaction Hash'])
+            ->getForm();
+        
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $ticket->setStatus('verified');
+            $entityManager->persist($ticket);
+            $entityManager->flush();
+    
+            return $this->redirectToRoute('admin-lotteries');
+        }
+    
+        return $this->render('lottery/detail-ticket.html.twig', [
+            'form' => $form->createView(),
+            'ticket' => $ticket,
         ]);
     }
     
