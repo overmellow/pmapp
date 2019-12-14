@@ -10,7 +10,7 @@
     <section class="single-categories-play-section section-padding">
         <div class="container">
             <div class="row">
-                <div class="col-lg-12">
+                <div class="col-lg-5 mx-auto">
                     <div class="single-cat-play-area">
                         <div class="single-header d-flex justify-content-between">
                             <div class="left d-flex">
@@ -18,8 +18,8 @@
                                 <img src="assets/images/elements/jackpot-1.png" alt="">
                                 </div>
                                 <div class="content">
-                                <h3 class="title">{{lottery.lotteryNumber}}</h3>
-                                <span class="amount">${{lottery.jackpot | number_format(2, '.', ',')}}</span>
+                                <h3 class="title"> {{lottery.lotteryNumber}}</h3>
+                                <span class="amount">${{lottery.jackpot | number_format(0, '.', ',')}}</span>
                                 </div>
                             </div>
                             {# <div class="right text-right">
@@ -39,8 +39,8 @@
                                         <div class="play-card-header">
                                             <span class="number-amount">Pick 5 Numbers</span>
                                             <div class="header-btn-area">
-                                                <button type="button" class"btn btn-light" id="quick-pick1">quick pick</button>
-                                                <button type="button" class"btn btn-light" id="clear-pick1">clear</button>
+                                                <button type="button" class="btn btn-light" id="quick-pick1">quick pick</button>
+                                                <button type="button" class="btn btn-light" id="clear-pick1">clear</button>
                                             </div>
                                         </div>
                                     <div class="play-card-body">

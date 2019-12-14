@@ -80,7 +80,7 @@
                                             <td>{{ticket.lottery.lotteryNumber}}</td>
                                             <td>${{ticket.lottery.jackpot}}</td>
                                             <td>{{ticket.status}}</td>
-                                            <td><a class="btn btn-success" href="/dashboard/ticket/{{ ticket.id }}"><i class="fa fa-trash"></i></a></td>
+                                            <td><a class="btn btn-success" href="/dashboard/ticket/{{ ticket.id }}"><i class="fa fa-info"></i></a></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -135,7 +135,7 @@
                                             <td>{{ tempTicket.lottery.lotteryNumber }}</td>
                                             <td>${{ tempTicket.lottery.jackpot }}</td>
                                             <td>{{ tempTicket.Status }}</td>
-                                            <td><a class="btn btn-success" href="/dashboard/play/pay/{{ tempTicket.id }}"><i class="fa fa-trash"></i></a></td>
+                                            <td><a class="btn btn-success" href="/dashboard/play/pay/{{ tempTicket.id }}"><i class="fa fa-info"></i></a></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
