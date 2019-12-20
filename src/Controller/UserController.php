@@ -51,8 +51,8 @@ class UserController extends AbstractController
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
             $entityManager = $this->getDoctrine()->getManager();
-            // $entityManager->persist($user);
-            // $entityManager->flush();
+            $entityManager->persist($user);
+            $entityManager->flush();
 
             $message = (new \Swift_Message('Premium Millionaire - You just signed up!'))
                 ->setFrom('morteza_faraji@email.com')
