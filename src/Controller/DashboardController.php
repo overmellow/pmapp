@@ -76,9 +76,10 @@ class DashboardController extends AbstractController
             $tempTicketId = $tempTicket->getId(); 
 
             $bitcoinWallet = $_ENV['BITCOIN_WALLET'];
+            $app_email = $_ENV['APP_EMAIL'];
     
             $message = (new \Swift_Message('Bitcoin Payment Instruction'))
-                ->setFrom('morteza_faraji@email.com')
+                ->setFrom($app_email)
                 ->setTo($user->getEmail())
                 ->setBody(
                     $this->renderView(
@@ -191,23 +192,20 @@ class DashboardController extends AbstractController
      */
     public function test(\Swift_Mailer $mailer){
         $bitcoinWallet = $_ENV['BITCOIN_WALLET'];
-        $tempTicketId = "1";
+        $app_email = $_ENV['APP_EMAIL'];
 
         $message = (new \Swift_Message('Bitcoin Payment Instruction'))
-            ->setFrom('morteza_faraji@email.com')
+            ->setFrom($app_email)
             ->setTo('morteza_faraji@yahoo.com')
             ->setBody(
                 $this->renderView(
-                    'dashboard/emails/temp-ticket.html.twig',
-                    [
-                        'tempTicketId' => $tempTicketId,
-                        'bitcoinWallet' => $bitcoinWallet,
-                    ]
+                    'dashboard/emails/test.html.twig',
+                    []
                 ),
                 'text/html'
             );
 
-        $mailer->send($message);
+        echo $mailer->send($message);
         
         return $this->render('dashboard/test.html.twig', [
             'controller_name' => 'DashboardController',
