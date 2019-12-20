@@ -9,23 +9,32 @@ use App\Form\UserType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
+
 use Symfony\Component\HttpFoundation\Request;
+
+use Psr\Log\LoggerInterface;
 
 class UserController extends AbstractController
 {
     private $userReposity;
     private $passwordEncoder;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $userRepository)
+    private $logger;
+
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $userRepository, LoggerInterface $logger)
     {
         $this->passwordEncoder = $passwordEncoder;
         $this->userRepository = $userRepository;
+
+        $this->logger = $logger;
     }
 
     /**
      * @Route("/signup", name="signup")
      */
-    public function signup(EntityManagerInterface $em, Request $request)
+    public function signup(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer)
     {
         $user = new User();
 
@@ -42,10 +51,27 @@ class UserController extends AbstractController
             // ... perform some action, such as saving the task to the database
             // for example, if Task is a Doctrine entity, save it!
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
-            $entityManager->flush();
+            // $entityManager->persist($user);
+            // $entityManager->flush();
+
+            $message = (new \Swift_Message('Premium Millionaire - You just signed up!'))
+                ->setFrom('morteza_faraji@email.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'user/emails/signed-up.html.twig',
+                        [
+                            // 'tempTicketId' => $tempTicketId,
+                            // 'bitcoinWallet' => $bitcoinWallet,
+                        ]
+                    ),
+                    'text/html'
+                );
+
     
-            return $this->redirectToRoute('dashboard');
+            echo $mailer->send($message);
+    
+            // return $this->redirectToRoute('dashboard');
         }
     
         return $this->render('user/new.html.twig', [
