@@ -69,9 +69,9 @@ class UserController extends AbstractController
                 );
 
     
-            echo $mailer->send($message);
+            $mailer->send($message);
     
-            // return $this->redirectToRoute('dashboard');
+            return $this->redirectToRoute('dashboard');
         }
     
         return $this->render('user/new.html.twig', [
