@@ -36,7 +36,18 @@ class DefaultController extends AbstractController
             'lotteries' => $lotteries,
         ]);
     }
-    
+
+    /**
+     * @Route("/lottery/{id}", name="lottery-details")
+     */
+    public function lottery(EntityManagerInterface $em, string $id){
+        $entityManager = $this->getDoctrine()->getManager();
+        $lottery = $entityManager->getRepository(Lottery::class)->find($id);
+        return $this->render('default/lottery.html.twig', [
+            'controller_name' => 'DefaultController',
+            'lottery' => $lottery,
+        ]);
+    }
     /**
      * @Route("/results", name="results")
      */

@@ -73,6 +73,16 @@ class Lottery
      */
     private $tempTickets;
 
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\DrawEvent", inversedBy="lottery", cascade={"persist", "remove"})
+     */
+    private $DrawEvent;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Entity\Ticket", cascade={"persist", "remove"})
+     */
+    private $Winner;
+
     public function __construct()
     {
         $this->tickets = new ArrayCollection();
@@ -238,6 +248,30 @@ class Lottery
                 $tempTicket->setLottery(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDrawEvent(): ?DrawEvent
+    {
+        return $this->DrawEvent;
+    }
+
+    public function setDrawEvent(?DrawEvent $DrawEvent): self
+    {
+        $this->DrawEvent = $DrawEvent;
+
+        return $this;
+    }
+
+    public function getWinner(): ?Ticket
+    {
+        return $this->Winner;
+    }
+
+    public function setWinner(?Ticket $Winner): self
+    {
+        $this->Winner = $Winner;
 
         return $this;
     }

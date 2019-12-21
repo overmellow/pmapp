@@ -42,7 +42,7 @@
 
           <div class="col-lg-4 col-sm-6">
               <div class="jackpot-item text-center">
-              <img src="{{ asset('assets/images/theme/elements/jackpot-1.png') }}" alt="image">
+              <a href="/lottery/{{lottery.id}}"><img src="{{ asset('assets/images/theme/elements/jackpot-1.png') }}" alt="image"></a>
               <span class="amount">Win ${{ lottery.jackpot | number_format(2, '.', ',') }}</span>
               <h5 class="title">{{ lottery.lotteryNumber }}</h5>
               <p class="next-draw-time">Sold Tickets: {{ lottery.tickets | length }} out of {{ lottery.size }}</p>
