@@ -10,7 +10,7 @@
     <section class="single-categories-play-section section-padding">
         <div class="container">
             <div class="row">
-                <div class="col-lg-5 mx-auto">
+                <div class="mx-auto">
                     <div class="single-cat-play-area">
                         <div class="single-header d-flex justify-content-between">
                             <div class="left d-flex">
@@ -148,11 +148,11 @@
                                     <div class="play-card-footer">
                                         <p class="play-card-footer-text">Selected Numbers:</p>
                                         <div class="selected-numbers">
-                                            <span class="selected_number" id="select_number_first">0</span>
-                                            <span class="selected_number" id="select_number_second">0</span>
-                                            <span class="selected_number" id="select_number_third">0</span>
-                                            <span class="selected_number" id="select_number_fourth">0</span>
-                                            <span class="selected_number" id="select_number_fifth">0</span>
+                                            <span class="selected_number" id="select_number_first" style="padding: 0 3px;">0</span>
+                                            <span class="selected_number" id="select_number_second" style="padding: 0 3px;">0</span>
+                                            <span class="selected_number" id="select_number_third" style="padding: 0 3px;">0</span>
+                                            <span class="selected_number" id="select_number_fourth" style="padding: 0 3px;">0</span>
+                                            <span class="selected_number" id="select_number_fifth" style="padding: 0 3px;">0</span>
                                             {# <span>8</span> #}
                                         </div>
                                     </div>
@@ -181,7 +181,7 @@
                                     {{ form_start(form) }}
                                     {{ form_widget(form) }}
                                     <div class="card-cart-btn-area">
-                                        <button class="single-cart-btn" type="submit"/>
+                                        <button class="single-cart-btn" id="" type="submit" style="width: 180px; display: none;">
                                             <span class="single-cart-amount">${{lottery.ticketAmount | number_format(2, '.', ',')}}</span>
                                             Pay
                                         </button>
@@ -278,7 +278,10 @@ function getSelectedNumbers(){
         //console.log($(this).text());
         temp += $(this).text();
     });
-    console.log(temp);
+    if(!temp.includes('0')){
+        var pathArray = window.location.pathname.split('/');
+        checkTicketNumberTaken(pathArray[3], temp);
+    }
     $('#temp_ticket_TicketNumber').val(temp);
 }
 
@@ -306,8 +309,22 @@ function quickPick(){
     val = Math.floor(Math.random() * 9) + 1;
     $('#select_number_fifth').text(val);
     selectNumber('#number_fifth', val);
+    getSelectedNumbers();
 
     //$('#number_first > li:contains("'+val+'")').addClass('active');
 }
+function checkTicketNumberTaken(lottery_id, ticket_number){
+    var urltocheck = window.location.origin + '/dashboard/play/check/' + lottery_id + '/' + ticket_number;
+    $.ajax({url: urltocheck, success: function(data, textStatus, xhr){
+        if(data == 'true'){
+            $(".single-cart-btn").css('display', 'block');
+        } else {
+            $(".single-cart-btn").css('display', 'none');
+        }
+    }, error: function(){
+        $(".single-cart-btn").css('display', 'none');
+    }});
+}
+
 </script>
 {% endblock %}

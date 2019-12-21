@@ -17,6 +17,7 @@ use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class DashboardController extends AbstractController
 {
@@ -107,7 +108,28 @@ class DashboardController extends AbstractController
             'user' => $user,
             'lottery' => $lottery,
         ]);
-    }    
+    }
+    
+    /**
+     * @Route("/dashboard/play/check/{lottery_id}/{ticket_number}", name="ticket-number-check")
+     */
+    public function checkReservedTicketNumber(Request $request, string $lottery_id, string $ticket_number)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $tempTicket = $entityManager->getRepository(TempTicket::class)->findOneBy([
+            'Lottery' => $lottery_id,
+            'TicketNumber' => $ticket_number
+        ]);
+        $ticket = $entityManager->getRepository(Ticket::class)->findOneBy([
+            'Lottery' => $lottery_id,
+            'TicketNumber' => $ticket_number
+        ]);
+
+        if($tempTicket != null || $ticket != null){
+            return new Response('false', 404, array('Content-Type' => 'text/html'));
+        }
+        return new Response('true', 200, array('Content-Type' => 'text/html'));
+    }
 
     /**
      * @Route("/dashboard/play/pay/{id}", name="pay")
