@@ -104,9 +104,9 @@ class LotteryController extends AbstractController
             $entityManager->persist($ticket);
             $entityManager->flush();
 
-            $lotteryManagement = new LotteryManagement;
+            //$lotteryManagement = new LotteryManagement;
 
-            $lotteryManagement->isActive($ticket->getLottery->getId());
+            //$lotteryManagement->isActive($ticket->getLottery->getId());
     
             return $this->redirectToRoute('admin-lotteries');
         }
