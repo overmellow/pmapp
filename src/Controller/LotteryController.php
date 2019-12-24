@@ -14,6 +14,8 @@ use App\Form\TicketType;
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
+use App\Business\LotteryManagement;
+
 class LotteryController extends AbstractController
 {
     /**
@@ -101,6 +103,10 @@ class LotteryController extends AbstractController
             $ticket->setStatus('verified');
             $entityManager->persist($ticket);
             $entityManager->flush();
+
+            $lotteryManagement = new LotteryManagement;
+
+            $lotteryManagement->isActive($ticket->getLottery->getId());
     
             return $this->redirectToRoute('admin-lotteries');
         }
