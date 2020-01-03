@@ -23,7 +23,7 @@
                         <th scope="col">Start At</th>
                         {# <th scope="col">Close At</th> #}
                         <th scope="col">Sold Tickets</th>
-                        <th scope="col">Active</th>
+                        <th scope="col">Status</th>
                         <th scope="col">Details</th>                
                     </tr>
                 </thead>
@@ -39,7 +39,7 @@
                         <td>{{ lottery.startAt | date('Y-m-d H:i:s') }}</td>
                         <td>{{ lottery.tickets | length }}</td>
                         {# <td>{{ lottery.closeAt | date('Y-m-d H:i:s') }}</td> #}
-                        <td>{{ lottery.active }}</td>
+                        <td>{{ lottery.status }}</td>
                         <td><a class="btn btn-primary" href="/admin/lotteries/detail/{{lottery.id}}"><i class="fa fa-info"></i></a></td>
                     </tr>
                     {% endfor %}

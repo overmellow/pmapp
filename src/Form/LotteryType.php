@@ -7,6 +7,8 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+
 class LotteryType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
@@ -16,9 +18,15 @@ class LotteryType extends AbstractType
             ->add('Size')
             ->add('ticket_amount')
             ->add('jackpot')
+            ->add('status', ChoiceType::class, [
+                'choices'  => [
+                    'Not Started' => 'unstarted',
+                    'Started' => 'started',
+                    'Closed' => 'closed',
+                    'Completed' => 'completed'
+                ],
+            ])
             ->add('StartAt')
-            ->add('CloseAt')
-            ->add('Active')
         ;
     }
 

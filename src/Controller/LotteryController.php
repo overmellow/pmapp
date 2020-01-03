@@ -14,7 +14,7 @@ use App\Form\TicketType;
 
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
-use App\Business\LotteryManagement;
+use App\Service\LotteryService;
 
 class LotteryController extends AbstractController
 {
@@ -25,7 +25,6 @@ class LotteryController extends AbstractController
     {
         $entityManager = $this->getDoctrine()->getManager();
         $lotteries = $entityManager->getRepository(Lottery::class)->findAll();
-        // $lotteries = $em->findAll();
         return $this->render('lottery/index.html.twig', [
             'controller_name' => 'LotteryController',
             'lotteries' => $lotteries,
@@ -85,7 +84,7 @@ class LotteryController extends AbstractController
     /**
      * @Route("/admin/lotteries/{lotteryId}/ticket/{ticketId}/details", name="admin-lottery-ticket-details")
      */
-    public function detailsTicket(EntityManagerInterface $em, Request $request, string $lotteryId, string $ticketId)
+    public function detailsTicket(EntityManagerInterface $em, Request $request, LotteryService $lotteryService, string $lotteryId, string $ticketId)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $ticket = $entityManager->getRepository(Ticket::class)->find($ticketId);   
@@ -107,6 +106,7 @@ class LotteryController extends AbstractController
             //$lotteryManagement = new LotteryManagement;
 
             //$lotteryManagement->isActive($ticket->getLottery->getId());
+            $lotteryService->isActive($ticket->getLottery()->getId());
     
             return $this->redirectToRoute('admin-lotteries');
         }

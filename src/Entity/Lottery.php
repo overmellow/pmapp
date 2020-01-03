@@ -49,16 +49,6 @@ class Lottery
     private $StartAt;
 
     /**
-     * @ORM\Column(type="datetime")
-     */
-    private $CloseAt;
-
-    /**
-     * @ORM\Column(type="boolean")
-     */
-    private $Active;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Ticket", mappedBy="Lottery")
      */
     private $tickets;
@@ -82,6 +72,11 @@ class Lottery
      * @ORM\OneToOne(targetEntity="App\Entity\Ticket", cascade={"persist", "remove"})
      */
     private $Winner;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $status;
 
     public function __construct()
     {
@@ -165,31 +160,7 @@ class Lottery
 
         return $this;
     }
-
-    public function getCloseAt(): ?\DateTimeInterface
-    {
-        return $this->CloseAt;
-    }
-
-    public function setCloseAt(\DateTimeInterface $CloseAt): self
-    {
-        $this->CloseAt = $CloseAt;
-
-        return $this;
-    }
-
-    public function getActive(): ?bool
-    {
-        return $this->Active;
-    }
-
-    public function setActive(bool $Active): self
-    {
-        $this->Active = $Active;
-
-        return $this;
-    }
-
+    
     /**
      * @return Collection|Ticket[]
      */
@@ -272,6 +243,18 @@ class Lottery
     public function setWinner(?Ticket $Winner): self
     {
         $this->Winner = $Winner;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

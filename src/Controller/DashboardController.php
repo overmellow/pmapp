@@ -29,7 +29,9 @@ class DashboardController extends AbstractController
         $user = $this->getUser();
 
         $entityManager = $this->getDoctrine()->getManager();
-        $lotteries = $entityManager->getRepository(Lottery::class)->findall();
+        $lotteries = $entityManager->getRepository(Lottery::class)->findBy(
+            array('status' => 'started'),
+        );
         //$myUser = $entityManager-getRepository(User::class)->find($user->getId());
         $tickets = $user->getTickets();
         $tempTickets = $user->getTempTickets();
