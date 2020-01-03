@@ -32,7 +32,9 @@ class DefaultController extends AbstractController
     public function allLotteries(EntityManagerInterface $em)
     {
         $entityManager = $this->getDoctrine()->getManager();
-        $lotteries = $entityManager->getRepository(Lottery::class)->findAll();
+        $lotteries = $entityManager->getRepository(Lottery::class)->findBy(
+            array('status' => 'started'),
+        );
         return $this->render('default/lotteries.html.twig', [
             'controller_name' => 'DefaultController',
             'lotteries' => $lotteries,
