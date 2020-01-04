@@ -7,8 +7,9 @@
     {% include 'menu.html.twig' %}
 
     <!-- single-categories-play-section start -->
-    <section class="single-categories-play-section section-padding">
-        <div class="container">
+    {# <section class="single-categories-play-section section-padding"> #}
+        <div class="container my-5">
+
             <div class="row">
                 <div class="mx-auto">
                     <div class="single-cat-play-area">
@@ -199,7 +200,7 @@
                 </div>   
             </div>   
         </div>
-    </section>
+    {# </section> #}
 {#                 
     <div class="container mb-5">
         <table class="table">
@@ -268,6 +269,7 @@ function selectNumber(list, val){
 function clearSelectedNumbers(){
     $('ul.number > li').removeClass('active');
     $('.selected_number').text('0');
+    $(".single-cart-btn").css('display', 'none');
     getSelectedNumbers();
 }
 

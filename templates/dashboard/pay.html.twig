@@ -28,17 +28,30 @@
  #}
     {# {{ form(form) }} #}
     <div class="container mb-5">
+
+        {# read and display all flash messages #}
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="flash-{{ label }}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %}
+
         <div class="card">
             <div class="card-header">
                 Ticket Details
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">
-                    Lottery Number: {{ lottery.lotteryNumber }}
+                    Lottery Number: <strong>{{ lottery.lotteryNumber }}</strong>
                 </li>    
                 <li class="list-group-item">
-                Ticket Number: {{ ticket.ticketNumber}}
-                </li>    
+                Ticket Number: <strong>{{ ticket.ticketNumber}}</strong>
+                </li>
+                <li class="list-group-item">
+                Bitcoin Wallet: <strong>{{ bitcoinWallet}}</strong>
+                </li>      
                 
                 
             </ul>

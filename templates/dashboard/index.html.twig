@@ -10,8 +10,8 @@
     {% include 'menu.html.twig' with {'user.email': user.email } %}
 
     <!-- online-ticket-section start -->
-    <section class="online-ticket-section section-padding">
-        <div class="container">
+    {# <section class="online-ticket-section section-padding"> #}
+        <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="section-header text-center">
@@ -38,12 +38,12 @@
                 {% endfor %}
             </div>
         </div>
-    </section>
+    {# </section> #}
 
 
     <!-- cart-section start -->
-    <section class="cart-section section-padding">
-        <div class="container">
+    {# <section class="cart-section section-padding"> #}
+        <div class="container my-5 py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="section-header text-center">
@@ -54,7 +54,7 @@
 
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="cart-area d-flex">
+                    <div class="d-flex">
                         <div class="col-lg-12">
                             <div class="cart-table">
                                 <table>
@@ -92,12 +92,12 @@
                 </div>
             </div>                    
         </div>
-    </section>
+    {# </section> #}
     <!-- cart-section end -->
 
     <!-- cart-section start -->
-    <section class="cart-section section-padding">
-        <div class="container">
+    {# <section class="cart-section section-padding"> #}
+        <div class="container py-5">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="section-header text-center">
@@ -107,7 +107,7 @@
             </div>
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="cart-area d-flex">
+                    <div class="d-flex">
                         <div class="col-lg-12">
                             <div class="cart-table">
                                 <table>
@@ -147,7 +147,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    {# </section> #}
     <!-- cart-section end -->
 
     {% include 'footer.html.twig' %}

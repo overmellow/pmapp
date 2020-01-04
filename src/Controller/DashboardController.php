@@ -19,6 +19,8 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use App\Service\TicketService;
+
 class DashboardController extends AbstractController
 {
     /**
@@ -76,6 +78,12 @@ class DashboardController extends AbstractController
             $entityManager->persist($lottery);
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $this->addFlash(
+                'notice',
+                'We have reserved your ticket, please make your payment!'
+            );
+
             $tempTicketId = $tempTicket->getId(); 
 
             $bitcoinWallet = $_ENV['BITCOIN_WALLET'];
@@ -136,7 +144,7 @@ class DashboardController extends AbstractController
     /**
      * @Route("/dashboard/play/pay/{id}", name="pay")
      */
-    public function pay(Request $request, string $id)
+    public function pay(Request $request, TicketService $ticketService, string $id)
     {
         $user = $this->getUser();
 
@@ -150,20 +158,33 @@ class DashboardController extends AbstractController
         $ticket->setLottery($tempTicket->getLottery());
         $ticket->setTicketNumber($tempTicket->getTicketNumber());
 
+        $bitcoinWallet = $_ENV['BITCOIN_WALLET'];
+
         $form = $this->createForm(TicketType::class, $ticket);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $ticket = $form->getData();
-            $ticket->setStatus('unverified');
             $ticket->setPurchasedAt(new \DateTime());
             $ticket->setBitcoinTransactionDate(new \DateTime());
             $ticket->setAmount($tempTicket->getLottery()->getTicketAmount());
+            
+            if($ticketService->verifyTicketPayment($ticket)){
+                $ticket->setStatus('verified');
+            } else {
+                $ticket->setStatus('unverified');
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($ticket);
             $entityManager->persist($user);
             $entityManager->remove($tempTicket);
-            $entityManager->flush();
+            $entityManager->flush();            
+
+            $this->addFlash(
+                'success',
+                'You\'ve paid for the ticket!'
+            );
     
             return $this->redirectToRoute('dashboard');
         }
@@ -173,6 +194,7 @@ class DashboardController extends AbstractController
             'user' => $user,
             'lottery' => $lottery,
             'ticket' => $ticket,
+            'bitcoinWallet' => $bitcoinWallet,
         ]);             
 
     }
