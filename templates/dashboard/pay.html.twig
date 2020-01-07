@@ -29,7 +29,7 @@
     {# {{ form(form) }} #}
     <div class="container mb-5">
 
-        {# read and display all flash messages #}
+        {# r    ead and display all flash messages #}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="flash-{{ label }}">
@@ -50,12 +50,20 @@
                 Ticket Number: <strong>{{ ticket.ticketNumber}}</strong>
                 </li>
                 <li class="list-group-item">
+                    Temp Ticket Expire at: <strong>{{ tempTicketCreatedAt |date_modify("+30 minute")|date }}</strong>
+                </li>
+                <li class="list-group-item">
                 Bitcoin Wallet: <strong>{{ bitcoinWallet}}</strong>
                 </li>      
                 
                 
             </ul>
+            {% set tempTicketExpireAt = tempTicketCreatedAt | date_modify("+30 minute") %}
+            {% if (tempTicketExpireAt ) > date() %}
             <div class="card-footer">
+                {# {{dump(tempTicketCreatedAt)}} #}
+                {# {{tempTicketCreatedAt->add(new DateInterval('PT60S'))}}; #}
+
                 {{ form_start(form) }}
                 {{ form_widget(form) }}
 
@@ -63,6 +71,8 @@
                 
                 {{ form_end(form) }}
             </div>
+            	
+            {% endif %}
         </div>    
         
 

@@ -48,6 +48,7 @@ class UserController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
 
             $user->setRoles(array("ROLE_USER"));
+            $user->setStatus('unconfirmed');
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
 
             // 
@@ -61,6 +62,7 @@ class UserController extends AbstractController
                     $this->renderView(
                         'user/emails/signed-up.html.twig',
                         [
+                            'userConfirmationHash' => base64_encode($user->getId()),
                             // 'tempTicketId' => $tempTicketId,
                             // 'bitcoinWallet' => $bitcoinWallet,
                         ]
@@ -104,5 +106,46 @@ class UserController extends AbstractController
         return $this->render('user/new.html.twig', [
             'form' => $form->createView(),
         ]);            
-    }    
+    } 
+    
+    /**
+     * @Route("/confirm/{user_confirmation_hash}", name="user-confirm")
+     */
+    public function confirmUser(EntityManagerInterface $em, string $user_confirmation_hash)
+    {        
+        $id = base64_decode($user_confirmation_hash);
+        echo $id;
+        $entityManager = $this->getDoctrine()->getManager();
+        $user = $entityManager->getRepository(User::class)->find($id);
+        if($user && $user->getStatus() == 'unconfirmed') {
+            $user->setStatus('confirmed');
+            $entityManager->persist($user);
+            $entityManager->flush();
+            return $this->redirectToRoute('dashboard');
+        }
+        // $entityManager = $this->getDoctrine()->getManager();
+
+
+        // $message = (new \Swift_Message('Premium Millionaire - You just signed up!'))
+        // ->setFrom('morteza_faraji@email.com')
+        // ->setTo($user->getEmail())
+        // ->setBody(
+        //     $this->renderView(
+        //         'user/emails/signed-up.html.twig',
+        //         [
+        //             // 'tempTicketId' => $tempTicketId,
+        //             // 'bitcoinWallet' => $bitcoinWallet,
+        //         ]
+        //     ),
+        //     'text/html'
+        // );
+
+
+        // $mailer->send($message);
+ 
+    
+        return $this->render('user/confirm.html.twig', [
+            'user_confirmation_hash' => $user_confirmation_hash
+        ]);                    
+    }     
 }

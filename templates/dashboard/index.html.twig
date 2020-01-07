@@ -135,7 +135,9 @@
                                             <td>{{ tempTicket.lottery.lotteryNumber }}</td>
                                             <td>${{ tempTicket.lottery.jackpot }}</td>
                                             <td>{{ tempTicket.Status }}</td>
-                                            <td><a class="btn btn-success" href="/dashboard/play/pay/{{ tempTicket.id }}"><i class="fa fa-info"></i></a></td>
+                                            <td>
+                                                <a class="btn btn-success" href="/dashboard/play/pay/{{ tempTicket.id }}"><i class="fa fa-info"></i></a>
+                                            </td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>

@@ -267,9 +267,9 @@ function selectNumber(list, val){
 }
 
 function clearSelectedNumbers(){
+    $(".single-cart-btn").css('display', 'none');
     $('ul.number > li').removeClass('active');
     $('.selected_number').text('0');
-    $(".single-cart-btn").css('display', 'none');
     getSelectedNumbers();
 }
 

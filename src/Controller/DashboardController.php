@@ -98,6 +98,8 @@ class DashboardController extends AbstractController
                         [
                             'tempTicketId' => $tempTicketId,
                             'bitcoinWallet' => $bitcoinWallet,
+                            'ticketNumber' => $tempTicket->getTicketNumber(),
+                            'lotteryNumber' => $tempTicket->getLottery()->getLotteryNumber(),
                         ]
                     ),
                     'text/html'
@@ -185,8 +187,8 @@ class DashboardController extends AbstractController
                 'success',
                 'You\'ve paid for the ticket!'
             );
-    
-            return $this->redirectToRoute('dashboard');
+            
+            return $this->redirectToRoute('ticket', array('id' => $ticket->getId()));
         }
     
         return $this->render('dashboard/pay.html.twig', [
@@ -195,6 +197,7 @@ class DashboardController extends AbstractController
             'lottery' => $lottery,
             'ticket' => $ticket,
             'bitcoinWallet' => $bitcoinWallet,
+            'tempTicketCreatedAt' => $tempTicket->getCreatedAt(),
         ]);             
 
     }

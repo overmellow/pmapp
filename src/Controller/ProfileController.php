@@ -51,4 +51,17 @@ class ProfileController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    public function change_user_password(Request $request, UserPasswordEncoderInterface $passwordEncoder) {
+        $old_pwd = $request->get('user_profile[password][second]'); 
+        $new_pwd = $request->get('user_profile[password][first]'); 
+        $new_pwd_confirm = $request->get('user_profile[password][second]');
+        $user = $this->getUser();
+        $checkPass = $passwordEncoder->isPasswordValid($user, $old_pwd);
+        if($checkPass === true) {
+                
+        } else {
+            return new jsonresponse(array('error' => 'The current password is incorrect.'));
+        }
+     }
 }
