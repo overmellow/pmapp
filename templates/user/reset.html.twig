@@ -3,7 +3,41 @@
 {% block title %}Reset Password!{% endblock %}
 
 {% block body %}
-    <h1>Reset Password</h1>
-    <hr>
-    {{ form(form) }}
+    {% if user.email is defined %}
+        {% include 'menu.html.twig' with {'user.email': user.email } %}                        
+    {% else %}  
+        {% include 'menu.html.twig' %}                        
+    {% endif %}
+
+    <div class="container my-5">
+        <form method="post">
+            {# {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %} #}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <div class="card d-flex justify-content-center">
+                <h5 class="card-header">Reset Password</h5>
+                <div class="card-body">
+                    {{ form_start(form) }}
+                    {{ form_widget(form) }}
+                    {# <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}" > #}
+
+                    <button class="btn btn-primary btn-block" type="submit">
+                        Send Reset Password Email
+                    </button>
+                    {{ form_end(form) }}
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+    {% include 'footer.html.twig' %}
+
 {% endblock %}

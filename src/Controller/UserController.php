@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\UserPasswordResetType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Doctrine\ORM\EntityManagerInterface;
 
@@ -15,6 +16,8 @@ use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\Request;
 
 use Psr\Log\LoggerInterface;
+
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class UserController extends AbstractController
 {
@@ -51,7 +54,6 @@ class UserController extends AbstractController
             $user->setStatus('unconfirmed');
             $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
 
-            // 
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -84,26 +86,48 @@ class UserController extends AbstractController
     /**
      * @Route("/reset", name="reset")
      */
-    public function reset(EntityManagerInterface $em, Request $request)
+    public function reset(EntityManagerInterface $em, Request $request, \Swift_Mailer $mailer)
     {
-        $user = new User();
+        $resetUser = new User();
 
-        $form = $this->createForm(UserType::class, $user);
+        $form = $this->createFormBuilder($resetUser)
+            ->add('email', TextType::class)
+            ->getForm();
 
         $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user = $form->getData();
-            
-            $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
-
+        if ($form->isSubmitted()/* && $form->isValid()*/) {
+            $resetUser = $form->getData();
             $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($user);
+            
+            $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $resetUser->getEmail()]);
+            $random_password = bin2hex(random_bytes(10));
+            $user->setPassword($this->passwordEncoder->encodePassword($user, $random_password));
             $entityManager->flush();
-    
-            return $this->redirectToRoute('dashboard');
+
+            $message = (new \Swift_Message('Premium Millionaire - Reset your password!'))
+                ->setFrom('morteza_faraji@email.com')
+                ->setTo($user->getEmail())
+                ->setBody(
+                    $this->renderView(
+                        'user/emails/reset.html.twig',
+                        [
+                            'newPassword' => $random_password,
+                        ]
+                    ),
+                    'text/html'
+                );
+
+            $mailer->send($message);
+
+            $this->addFlash(
+                'success',
+                'We just sent you a password reset instruction email!'
+            );
+               
+            return $this->redirectToRoute('app_login');
         }
     
-        return $this->render('user/new.html.twig', [
+        return $this->render('user/reset.html.twig', [
             'form' => $form->createView(),
         ]);            
     } 
@@ -114,17 +138,15 @@ class UserController extends AbstractController
     public function confirmUser(EntityManagerInterface $em, string $user_confirmation_hash)
     {        
         $id = base64_decode($user_confirmation_hash);
-        echo $id;
         $entityManager = $this->getDoctrine()->getManager();
         $user = $entityManager->getRepository(User::class)->find($id);
+
         if($user && $user->getStatus() == 'unconfirmed') {
             $user->setStatus('confirmed');
             $entityManager->persist($user);
             $entityManager->flush();
             return $this->redirectToRoute('dashboard');
         }
-        // $entityManager = $this->getDoctrine()->getManager();
-
 
         // $message = (new \Swift_Message('Premium Millionaire - You just signed up!'))
         // ->setFrom('morteza_faraji@email.com')
@@ -141,11 +163,7 @@ class UserController extends AbstractController
         // );
 
 
-        // $mailer->send($message);
- 
-    
-        return $this->render('user/confirm.html.twig', [
-            'user_confirmation_hash' => $user_confirmation_hash
-        ]);                    
+        // $mailer->send($message);    
+        return $this->render('user/confirm.html.twig');                    
     }     
 }
