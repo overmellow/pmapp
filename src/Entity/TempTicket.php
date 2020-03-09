@@ -60,6 +60,11 @@ class TempTicket
      */
     private $Amount;
 
+    /**
+     * @ORM\Column(type="string", length=255, unique=true)
+     */
+    private $WalletAddress;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -157,6 +162,18 @@ class TempTicket
     public function setAmount(string $Amount): self
     {
         $this->Amount = $Amount;
+
+        return $this;
+    }
+
+    public function getWalletAddress(): ?string
+    {
+        return $this->WalletAddress;
+    }
+
+    public function setWalletAddress(string $WalletAddress): self
+    {
+        $this->WalletAddress = $WalletAddress;
 
         return $this;
     }

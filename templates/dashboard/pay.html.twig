@@ -53,10 +53,12 @@
                     Temp Ticket Expire at: <strong>{{ tempTicketCreatedAt |date_modify("+30 minute")|date }}</strong>
                 </li>
                 <li class="list-group-item">
-                Bitcoin Wallet: <strong>{{ bitcoinWallet}}</strong>
+                    {# Bitcoin Wallet: <strong>{{ bitcoinWallet }}</strong> #}
+                    Wallet address: <strong>{{ ticket.WalletAddress }}</strong>
+                </li>
+                <li class="list-group-item">
+                    <img src="{{ qr_code_path('bitcoin:' ~ ticket.WalletAddress) }}" />
                 </li>      
-                
-                
             </ul>
             {% set tempTicketExpireAt = tempTicketCreatedAt | date_modify("+30 minute") %}
             {% if (tempTicketExpireAt ) > date() %}
@@ -80,4 +82,40 @@
 
     {% include 'footer.html.twig' %}
 
+{% endblock %}
+
+{% block javascripts %}
+<script>
+jQuery(document).ready(function() {
+    const eventSource = new EventSource('http://localhost:3000/.well-known/mercure?topic=/dashboard/play/pay/bitcoin/paid/walletaddress/{{ticket.WalletAddress}}');
+    //const eventSource = new EventSource('http://localhost:3000/.well-known/mercure?topic=' + encodeURIComponent('/dashboard/play/pay/bitcoin/paid/walletaddress/{{ticket.WalletAddress}}'));
+    eventSource.onmessage = event => {
+        // Will be called every time an update is published by the server
+        mydata = JSON.parse(event.data)
+            console.log(JSON.parse(event.data));
+        if(mydata.status=='paid'){
+            console.log('hi');
+            window.location.href = ('/dashboard');
+        }
+
+    }
+    
+    /*
+    const es = new EventSource('/dashboard/play/pay/bitcoin/paid?walletaddress={{ticket.WalletAddress}}');
+    console.log("hop")
+
+    es.onmessage = function(event) {
+        console.log("hey");
+        console.log(event.data);
+        console.log(event.data);
+        {# console.log(JSON.parse(event.data).paid) #}
+        {# console.log(JSON.parse(event.data).ticket) #}
+        if(event.data=='paid'){
+            console.log('hi');
+            window.location.href = ('/dashboard');
+        }
+    };
+    */
+});
+</script>
 {% endblock %}

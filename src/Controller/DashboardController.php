@@ -20,6 +20,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 use App\Service\TicketService;
+use App\Service\BitcoinService;
+
+use Symfony\Component\Mercure\PublisherInterface;
+use Symfony\Component\Mercure\Update;
 
 class DashboardController extends AbstractController
 {
@@ -53,7 +57,7 @@ class DashboardController extends AbstractController
     /**
      * @Route("/dashboard/play/{id}", name="play")
      */
-    public function play(Request $request, \Swift_Mailer $mailer, string $id)
+    public function play(Request $request, \Swift_Mailer $mailer, BitcoinService $bitcoinService, string $id)
     {
         $user = $this->getUser();
 
@@ -73,6 +77,7 @@ class DashboardController extends AbstractController
             $tempTicket->setCreatedAt(new \DateTime());
             $tempTicket->setAmount($lottery->getTicketAmount());
             $tempTicket->setStatus('pending');
+            $tempTicket->setWalletAddress($bitcoinService->getNewAddress());
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($tempTicket);
             $entityManager->persist($lottery);
@@ -97,7 +102,7 @@ class DashboardController extends AbstractController
                         'dashboard/emails/temp-ticket.html.twig',
                         [
                             'tempTicketId' => $tempTicketId,
-                            'bitcoinWallet' => $bitcoinWallet,
+                            'bitcoinWallet' => $tempTicket->getWalletAddress(),
                             'ticketNumber' => $tempTicket->getTicketNumber(),
                             'lotteryNumber' => $tempTicket->getLottery()->getLotteryNumber(),
                         ]
@@ -144,9 +149,52 @@ class DashboardController extends AbstractController
     }
 
     /**
+     * @Route("/dashboard/play/pay/bitcoin", name="pay-bitcoin")
+     */
+    public function postBitcoinTransactionNumber(Request $request, BitcoinService $bitcoinService, PublisherInterface $publisher)
+    {
+        $tx = $request->query->get('tx');
+        $tx_wallet_address = $bitcoinService->getAddressByTransaction($tx);
+        $entityManager = $this->getDoctrine()->getManager();
+        $tempTicket = $entityManager->getRepository(TempTicket::class)->findOneBy(
+            array('WalletAddress' => $tx_wallet_address),
+        );
+
+        if(!$tempTicket)
+        {
+            throw new \Exception('Resource not found!');
+        }
+
+        $ticket = new Ticket();
+        $ticket->setUser($tempTicket->getUser());
+        $ticket->setLottery($tempTicket->getLottery());
+        $ticket->setTicketNumber($tempTicket->getTicketNumber());
+        $ticket->setWalletAddress($tempTicket->getWalletAddress());
+        $ticket->setPurchasedAt(new \DateTime());
+        $ticket->setBitcoinTransactionDate(new \DateTime());
+        $ticket->setAmount($tempTicket->getLottery()->getTicketAmount());
+        $ticket->setBitcoinTransactionNumber($tx);
+        $ticket->setStatus('verified');
+
+        $entityManager->persist($ticket);
+        $entityManager->remove($tempTicket);
+        $entityManager->flush();
+
+        $update = new Update(
+            '/dashboard/play/pay/bitcoin/paid/walletaddress/' . $tx_wallet_address,
+            json_encode(['status' => 'paid'])
+        );
+
+        // The Publisher service is an invokable object
+        $publisher($update);
+
+        return new Response('true', 200, array('Content-Type' => 'text/html'));
+    }    
+
+    /**
      * @Route("/dashboard/play/pay/{id}", name="pay")
      */
-    public function pay(Request $request, TicketService $ticketService, string $id)
+    public function pay(Request $request, TicketService $ticketService, BitcoinService $bitcoinService, string $id)
     {
         $user = $this->getUser();
 
@@ -159,8 +207,10 @@ class DashboardController extends AbstractController
         $ticket->setUser($user);
         $ticket->setLottery($tempTicket->getLottery());
         $ticket->setTicketNumber($tempTicket->getTicketNumber());
+        $ticket->setWalletAddress($tempTicket->getWalletAddress());
 
-        $bitcoinWallet = $_ENV['BITCOIN_WALLET'];
+        // $bitcoinWallet = $_ENV['BITCOIN_WALLET'];
+        // $bitcoinWallet = $bitcoinService->getNewAddress();
 
         $form = $this->createForm(TicketType::class, $ticket);
 
@@ -196,7 +246,7 @@ class DashboardController extends AbstractController
             'user' => $user,
             'lottery' => $lottery,
             'ticket' => $ticket,
-            'bitcoinWallet' => $bitcoinWallet,
+            // 'bitcoinWallet' => $bitcoinWallet,
             'tempTicketCreatedAt' => $tempTicket->getCreatedAt(),
         ]);             
 
@@ -259,5 +309,36 @@ class DashboardController extends AbstractController
         return $this->render('dashboard/test.html.twig', [
             'controller_name' => 'DashboardController',
         ]);
+    }
+    
+    /**
+     * @Route("/dashboard/play/pay/bitcoin/paid", name="paid-bitcoin")
+     */
+    public function informBitcoinPaid(Request $request, BitcoinService $bitcoinService)
+    {
+        $tx_wallet_address = $request->query->get("walletaddress");        
+        // $time = date('r');
+        // echo "data: The server time is: {$time}\n\n";
+        
+        $entityManager = $this->getDoctrine()->getManager();
+        $ticket = $entityManager->getRepository(Ticket::class)->findOneBy(
+            array('WalletAddress' => $tx_wallet_address),
+        );
+
+        // echo 'data: {paid: true, ticket: 123} \n\n';
+        echo 'data: hello\n\n';
+        // echo 'data: {\n';
+        // echo 'data: "msg": "hello world",\n';
+        // echo 'data: "id": 12345\n';
+        // echo 'data: }\n\n';
+
+        if($ticket)
+        {
+            echo 'data: {"paid": true, "ticket": ' . $ticket.id .'} \n\n';
+        }
+
+        flush();
+
+        return new Response('', 200, array('Content-Type' => 'text/event-stream', 'Cache-Control' => 'no-cache'));
     }
 }

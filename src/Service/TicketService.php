@@ -24,4 +24,9 @@ class TicketService
         return false;
     }
 
+    // public function convertTempTicketToTicket(TempTicket $tempTicket)
+    // {
+
+    // }
+
 }

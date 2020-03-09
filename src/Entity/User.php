@@ -56,11 +56,6 @@ class User implements UserInterface
     private $tickets;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\TempTicket", mappedBy="User", cascade={"persist", "remove"})
-     */
-    private $tempTicket;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\TempTicket", mappedBy="User")
      */
     private $tempTickets;
@@ -231,20 +226,4 @@ class User implements UserInterface
         return $this;
     }
 
-    // public function getTempTicket(): ?TempTicket
-    // {
-    //     return $this->tempTicket;
-    // }
-
-    // public function setTempTicket(TempTicket $tempTicket): self
-    // {
-    //     $this->tempTicket = $tempTicket;
-
-    //     // set the owning side of the relation if necessary
-    //     if ($this !== $tempTicket->getUser()) {
-    //         $tempTicket->setUser($this);
-    //     }
-
-    //     return $this;
-    // }
 }
