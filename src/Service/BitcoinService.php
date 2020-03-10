@@ -43,4 +43,15 @@ class BitcoinService
         return $transaction['details'][0]['address'];
     }
 
+    public function getWalletInfo()
+    {
+        return $this->bitcoin->getwalletinfo();
+    }
+
+    public function displayError()
+    {
+        return $this->bitcoin->error;
+    }
+    
+
 }
