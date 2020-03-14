@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello DashboardController!{% endblock %}
+
+{% block body %}
+
+    {% include 'admin-menu.html.twig' %}
+    
+    <div class="container mb-5">
+        <h3>Bitcoin Wallet Info</h3>
+        <hr>
+        {{tx}}
+        {# {% for key, val in tx %}
+        <li>{{ key }}: {{ val }}</li>
+        {% endfor %} #}
+    </div>
+
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
