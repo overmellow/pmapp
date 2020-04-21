@@ -16,7 +16,7 @@
                         <div class="single-header d-flex justify-content-between">
                             <div class="left d-flex">
                                 <div class="icon">
-                                <img src="assets/images/elements/jackpot-1.png" alt="">
+                                <img src="/assets/images/themes/elements/jackpot-1.png" alt="">
                                 </div>
                                 <div class="content">
                                 <h3 class="title"> {{lottery.lotteryNumber}}</h3>
@@ -239,12 +239,16 @@
 
 {% block javascripts %}
 <script>
+let timestamp = Date.now();
 jQuery(document).ready(function() {
     $('li').change(function(){
        //$('#'+ $(this).attr('target')).text($(this).val());
     });
 
     $('ul.number > li').click(function(){
+        $("#quick-pick1").prop('disabled', true);
+        $("#clear-pick1").prop('disabled', true); 
+        $(".single-cart-btn").css('display', 'none');       
         $(this).siblings().removeClass('active');
         $('#'+ $(this).parent().attr('target')).text($(this).text());
         getSelectedNumbers();
@@ -261,16 +265,16 @@ jQuery(document).ready(function() {
 });
 
 function selectNumber(list, val){
+    {# $("#quick-pick1").prop('disabled', true);
+    $("#clear-pick1").prop('disabled', true);       #}
     $(list + ' > li:contains("'+val+'")').siblings().removeClass('active');
     $(list + ' > li:contains("'+val+'")').addClass('active')
-    getSelectedNumbers();
 }
 
 function clearSelectedNumbers(){
     $(".single-cart-btn").css('display', 'none');
     $('ul.number > li').removeClass('active');
-    $('.selected_number').text('0');
-    getSelectedNumbers();
+    $('.selected_number').text('0');    
 }
 
 function getSelectedNumbers(){
@@ -288,7 +292,9 @@ function getSelectedNumbers(){
 }
 
 function quickPick(){
-
+    $("#quick-pick1").prop('disabled', true);
+    $("#clear-pick1").prop('disabled', true);
+    $(".single-cart-btn").css('display', 'none');
     val = Math.floor(Math.random() * 9) + 1;
     $('#select_number_first').text(val);
     selectNumber('#number_first', val);
@@ -315,18 +321,25 @@ function quickPick(){
 
     //$('#number_first > li:contains("'+val+'")').addClass('active');
 }
-function checkTicketNumberTaken(lottery_id, ticket_number){
-    var urltocheck = window.location.origin + '/dashboard/play/check/' + lottery_id + '/' + ticket_number;
+function checkTicketNumberTaken(lottery_id, ticket_number){ 
+    timestamp = Date.now();  
+    var urltocheck = window.location.origin + '/dashboard/play/check/' + lottery_id + '/' + ticket_number + '/' + timestamp;
     $.ajax({url: urltocheck, success: function(data, textStatus, xhr){
-        if(data == 'true'){
+        console.log(data.timestamp)
+        if(data.status == true && data.timestamp == timestamp){
             $(".single-cart-btn").css('display', 'block');
+            $("#quick-pick1").prop('disabled', false);
+            $("#clear-pick1").prop('disabled', false);
         } else {
             $(".single-cart-btn").css('display', 'none');
+            $("#quick-pick1").prop('disabled', false);
+            $("#clear-pick1").prop('disabled', false);
         }
     }, error: function(){
         $(".single-cart-btn").css('display', 'none');
+        $("#quick-pick1").prop('disabled', false);
+        $("#clear-pick1").prop('disabled', false);
     }});
 }
-
 </script>
 {% endblock %}

@@ -128,9 +128,9 @@ class DashboardController extends AbstractController
     }
     
     /**
-     * @Route("/dashboard/play/check/{lottery_id}/{ticket_number}", name="ticket-number-check")
+     * @Route("/dashboard/play/check/{lottery_id}/{ticket_number}/{timestamp}", name="ticket-number-check")
      */
-    public function checkReservedTicketNumber(Request $request, string $lottery_id, string $ticket_number)
+    public function checkReservedTicketNumber(Request $request, string $lottery_id, string $ticket_number, string $timestamp)
     {
         $entityManager = $this->getDoctrine()->getManager();
         $tempTicket = $entityManager->getRepository(TempTicket::class)->findOneBy([
@@ -143,9 +143,9 @@ class DashboardController extends AbstractController
         ]);
 
         if($tempTicket != null || $ticket != null){
-            return new Response('false', 404, array('Content-Type' => 'text/html'));
+            return new Response(json_encode(['status' => false, 'timestamp' =>  $timestamp ]), 404, array('Content-Type' => 'application/json'));
         }
-        return new Response('true', 200, array('Content-Type' => 'text/html'));
+        return new Response(json_encode(['status' => true, 'timestamp' => $timestamp ]), 200, array('Content-Type' => 'application/json'));
     }
 
     /**
