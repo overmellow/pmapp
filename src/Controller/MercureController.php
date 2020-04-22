@@ -38,6 +38,6 @@ class MercureController extends AbstractController
         // The Publisher service is an invokable object
         $publisher($update);
 
-        return new Response(json_encode(['status' => true]), 200, array('Content-Type' => 'application/json'));
+        return new Response(json_encode(['status' => 'received']), 200, array('Content-Type' => 'application/json'));
     }    
 }

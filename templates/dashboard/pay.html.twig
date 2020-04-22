@@ -75,8 +75,9 @@
             </div>
             	
             {% endif %}
-        </div>    
-        
+        </div> 
+           
+        <input type="hidden" id="js-mercure-publish-url" data-address="{{ MERCURE_PUBLISH_URL }}">
 
     </div>
 
@@ -87,7 +88,9 @@
 {% block javascripts %}
 <script>
 jQuery(document).ready(function() {
-    const eventSource = new EventSource('http://localhost:3000/.well-known/mercure?topic=/dashboard/play/pay/bitcoin/paid/walletaddress/{{ticket.WalletAddress}}');
+    var mercure_publish_url = $('#js-mercure-publish-url').data('address');
+    const eventSource = new EventSource(mercure_publish_url + '?topic=/dashboard/play/pay/bitcoin/paid/walletaddress/{{ticket.WalletAddress}}');
+    {# const eventSource = new EventSource('http://localhost:3000/.well-known/mercure?topic=/dashboard/play/pay/bitcoin/paid/walletaddress/{{ticket.WalletAddress}}'); #}
     //const eventSource = new EventSource('http://localhost:3000/.well-known/mercure?topic=' + encodeURIComponent('/dashboard/play/pay/bitcoin/paid/walletaddress/{{ticket.WalletAddress}}'));
     eventSource.onmessage = event => {
         // Will be called every time an update is published by the server

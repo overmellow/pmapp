@@ -248,6 +248,7 @@ class DashboardController extends AbstractController
             'ticket' => $ticket,
             // 'bitcoinWallet' => $bitcoinWallet,
             'tempTicketCreatedAt' => $tempTicket->getCreatedAt(),
+            'MERCURE_PUBLISH_URL' => $_ENV['MERCURE_PUBLISH_URL'],
         ]);             
 
     }
