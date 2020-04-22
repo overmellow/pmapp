@@ -7,6 +7,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 
 use App\Service\BitcoinService;
+use App\Library\Bitcoin;
 
 class BitcoinController extends AbstractController
 {
