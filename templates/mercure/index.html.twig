@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MercureController!{% endblock %}
+
+{% block body %}
+
+    {% include 'admin-menu.html.twig' %}
+    
+    <div class="container mb-5">
+        <h3>Mercure Connection Test</h3>
+        <hr>
+
+        <div class="form-group">
+            <label for="ticket_BitcoinTransactionNumber" class="required">Connection Test Value</label>
+            <input type="text" id="input1" class="form-control">
+        </div>
+        <button type="button" class="cmn-btn">Test Mercure Connection</button>
+        <br><br>
+        <input type="hidden" id="js-mercure-publish-url" data-address="{{ MERCURE_PUBLISH_URL }}">
+        <ul id="myList">            
+        </ul>
+        {# {% for key, val in bitcoin_wallet_info %}
+        <li>{{ key }}: {{ val }}</li>
+        {% endfor %} #}
+    </div>
+
+    {% include 'footer.html.twig' %}
+
+{% endblock %}
+
+{% block javascripts %}
+<script>
+jQuery(document).ready(function() {
+    var mercure_publish_url = $('#js-mercure-publish-url').data('address');
+    const eventSource = new EventSource(mercure_publish_url + '?topic=/admin/mercure');
+    eventSource.onmessage = event => {
+        mydata = JSON.parse(event.data)
+        var node = document.createElement("LI");                 // Create a <li> node
+        var textnode = document.createTextNode(mydata.val);         // Create a text node
+        node.appendChild(textnode);                              // Append the text to <li>
+        document.getElementById("myList").appendChild(node); 
+    }    
+});
+
+$("button").click(function(){
+    let val = $('#input1').val()
+    var urltocheck = window.location.origin + '/admin/mercure/test?value=' + val;
+    $.ajax({url: urltocheck, success: function(data, textStatus, xhr){
+        console.log(data)
+    }, error: function(){}});
+}); 
+
+</script>
+{% endblock %}
