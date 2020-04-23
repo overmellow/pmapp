@@ -13,7 +13,7 @@ class TicketType extends AbstractType
     {
         $builder
             // ->add('TicketNumber')
-            ->add('BitcoinTransactionNumber')
+            // ->add('BitcoinTransactionNumber')
             // ->add('PurchasedAt')
             // ->add('BitcoinTransactionDate')
             // ->add('status')
