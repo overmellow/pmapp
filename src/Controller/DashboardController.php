@@ -85,9 +85,9 @@ class DashboardController extends AbstractController
             $entityManager->flush();
 
             $this->addFlash(
-                'notice',
-                'We have reserved your ticket, please make your payment!'
-            );
+                'primary',
+                'We have reserved your ticket, please make your Bitcoin payment to the follow wallet'
+            );            
 
             $tempTicketId = $tempTicket->getId(); 
 
@@ -179,6 +179,11 @@ class DashboardController extends AbstractController
         $entityManager->persist($ticket);
         $entityManager->remove($tempTicket);
         $entityManager->flush();
+
+        $this->addFlash(
+            'notice',
+            'Your Bitcoin payment has been received! We\'ve sent you an email including your ticket and payment reciept!'
+        );
 
         $update = new Update(
             '/dashboard/play/pay/bitcoin/paid/walletaddress/' . $tx_wallet_address,

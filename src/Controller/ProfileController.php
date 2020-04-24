@@ -43,6 +43,11 @@ class ProfileController extends AbstractController
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+            
+            $this->addFlash(
+                'success',
+                'You\'ve reset your password successfuly!',
+            );
     
             return $this->redirectToRoute('profile');
         }

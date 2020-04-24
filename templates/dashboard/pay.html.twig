@@ -29,10 +29,10 @@
     {# {{ form(form) }} #}
     <div class="container mb-5">
 
-        {# r    ead and display all flash messages #}
+        {# read and display all flash messages #}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
-                <div class="flash-{{ label }}">
+                <div class="alert alert-{{label}}" role="alert">
                     {{ message }}
                 </div>
             {% endfor %}

@@ -7,6 +7,18 @@
     {% include 'menu.html.twig' %}
 
     <div class="container mb-5">
+
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                {# <div class="flash-{{ label }}">
+                    {{ message }}
+                </div> #}
+                <div class="alert alert-{{ label }}" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endfor %} 
+    
         <div class="card">
             <div class="card-header">
                 Ticket Details
