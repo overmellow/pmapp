@@ -181,7 +181,7 @@ class DashboardController extends AbstractController
         $entityManager->flush();
 
         $this->addFlash(
-            'notice',
+            'success',
             'Your Bitcoin payment has been received! We\'ve sent you an email including your ticket and payment reciept!'
         );
 
@@ -240,7 +240,7 @@ class DashboardController extends AbstractController
 
             $this->addFlash(
                 'success',
-                'You\'ve paid for the ticket!'
+                'Your Bitcoin payment has been received! We\'ve sent you an email including your ticket and payment reciept!'
             );
             
             return $this->redirectToRoute('ticket', array('id' => $ticket->getId()));
@@ -290,32 +290,7 @@ class DashboardController extends AbstractController
             'user' => $user,
             'tempTicket' => $tempTicket,
         ]);
-    }
-    
-    /**
-     * @Route("/test", name="test")
-     */
-    public function test(\Swift_Mailer $mailer){
-        $bitcoinWallet = $_ENV['BITCOIN_WALLET'];
-        $app_email = $_ENV['APP_EMAIL'];
-
-        $message = (new \Swift_Message('Bitcoin Payment Instruction'))
-            ->setFrom($app_email)
-            ->setTo('morteza_faraji@yahoo.com')
-            ->setBody(
-                $this->renderView(
-                    'dashboard/emails/test.html.twig',
-                    []
-                ),
-                'text/html'
-            );
-
-        echo $mailer->send($message);
-        
-        return $this->render('dashboard/test.html.twig', [
-            'controller_name' => 'DashboardController',
-        ]);
-    }
+    }    
     
     /**
      * @Route("/dashboard/play/pay/bitcoin/paid", name="paid-bitcoin")
