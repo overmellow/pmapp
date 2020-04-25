@@ -54,7 +54,7 @@
                 </li>
                 <li class="list-group-item">
                     {# Bitcoin Wallet: <strong>{{ bitcoinWallet }}</strong> #}
-                    Wallet address: <strong>{{ ticket.WalletAddress }}</strong>
+                    Wallet address: <strong><span id="wallet-address">{{ ticket.WalletAddress }}</span></strong> <a class="btn btn-outline-light btn-sm" id="copy-wallet"><i class="fa fa-copy" aria-hidden="true"></i></a> 
                 </li>
                 <li class="list-group-item">
                     <img src="{{ qr_code_path('bitcoin:' ~ ticket.WalletAddress) }}" />
@@ -102,7 +102,30 @@ jQuery(document).ready(function() {
         }
 
     }
-    
+
+    $('#copy-wallet').click(function(e){
+        var elm = document.getElementById("wallet-address");
+        // for Internet Explorer
+
+        if(document.body.createTextRange) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(elm);
+            range.select();
+            document.execCommand("Copy");
+            alert("Copied div content to clipboard");
+        }
+        else if(window.getSelection) {
+            // other browsers
+
+            var selection = window.getSelection();
+            var range = document.createRange();
+            range.selectNodeContents(elm);
+            selection.removeAllRanges();
+            selection.addRange(range);
+            document.execCommand("Copy");
+//            alert("Copied div content to clipboard");
+        }
+    });   
     /*
     const es = new EventSource('/dashboard/play/pay/bitcoin/paid?walletaddress={{ticket.WalletAddress}}');
     console.log("hop")
